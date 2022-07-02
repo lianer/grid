@@ -37,3 +37,11 @@
    3. 扩展的属性有：$left、$top、$width、$height 等
 
 编辑表单
+
+类型
+
+2. 操作组件 BasicControlSchema/AutoHeightControlSchema...
+3. 组件定义 TextSchema/ImageSchema...
+4. 基础信息 BaseSchema
+5. 用于描述未知属性的类型 DefineSchema，可以进一步定义 Schema，使得在具体的场景下拥有更加准确的类型推导
+6. 舞台实例 InstanceSchema，在 DefineSchema 的基础上，增加了 iid，用以标识组件实例的唯一性

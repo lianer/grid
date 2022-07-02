@@ -2,11 +2,7 @@ import { FC } from 'react';
 import { TextSchema } from './schema';
 
 const Component: FC<TextSchema> = ({
-  text,
-  fontSize,
-  fontWeight,
-  color,
-  opacity,
+  props: { text, fontSize, fontWeight, color, opacity },
 }) => {
   return (
     <div>

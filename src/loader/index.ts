@@ -1,6 +1,6 @@
 import image from '@/materials/image';
 import text from '@/materials/text';
-import { lazy, LazyExoticComponent } from 'react';
+import { ComponentType, lazy, LazyExoticComponent } from 'react';
 
 const components = {
   // 1: text.Component,
@@ -29,5 +29,5 @@ export const loadById = ($cid: number) => {
   }
   // 这个文件模拟了网络请求加载 component 的过程
   // 组件是从网络加载的，因此这里重置 ts 的静态类型推导
-  return lazyComponent as LazyExoticComponent<any>;
+  return lazyComponent as LazyExoticComponent<ComponentType<any>>;
 };

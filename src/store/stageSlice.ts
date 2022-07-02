@@ -1,10 +1,7 @@
-import { BaseSchema } from '@/interface';
+import { DefineSchema, InstanceSchema } from '@/interface';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { merge } from 'lodash-es';
 import { RootState } from './store';
-
-type InstanceSchema = BaseSchema & {
-  $iid: number;
-};
 
 interface State {
   width: number; // 舞台的宽度
@@ -50,25 +47,49 @@ export const slice = createSlice({
       state.scale = payload.scale;
     },
 
-    add: (state, { payload }: PayloadAction<{ schema: BaseSchema }>) => {
-      const $iid = Date.now();
-      state.children = [
-        ...state.children,
-        {
-          ...payload.schema,
-          $iid,
-        },
-      ];
-      state.active = $iid;
+    add: (state, { payload }: PayloadAction<{ schema: DefineSchema }>) => {
+      // 从侧边栏添加到舞台，添加 iid 属性，从 DefineSchema 转变为 InstanceSchema
+      const iid = Date.now();
+      const instanceSchema: InstanceSchema = {
+        ...payload.schema,
+        iid,
+      };
+      state.children = [...state.children, instanceSchema];
+      state.active = iid;
     },
 
-    active: (state, { payload }: PayloadAction<{ $iid: number }>) => {
-      state.active = payload.$iid;
+    changeProps: (
+      state,
+      { payload }: PayloadAction<{ iid: number; props: DefineSchema }>,
+    ) => {
+      state.children = state.children.map((item) => {
+        if (item.iid === payload.iid) {
+          const props = { ...item.props };
+          for (let [key, value] of Object.entries(payload.props)) {
+            if (props.hasOwnProperty(key)) {
+              merge(props, { [key]: value });
+            } else {
+              console.error(`changeProps: 组件 %o 不存在属性 props.${key}`, {
+                ...item,
+              });
+            }
+          }
+          return {
+            ...item,
+            props,
+          };
+        }
+        return item;
+      });
     },
 
-    moveUp: (state, { payload }: PayloadAction<{ $iid: number }>) => {
+    active: (state, { payload }: PayloadAction<{ iid: number }>) => {
+      state.active = payload.iid;
+    },
+
+    moveUp: (state, { payload }: PayloadAction<{ iid: number }>) => {
       const children = [...state.children];
-      const index = children.findIndex((item) => item.$iid === payload.$iid)!;
+      const index = children.findIndex((item) => item.iid === payload.iid)!;
       const item = children.splice(index, 1)[0];
       children.splice(index - 1, 0, item);
       state.children = children;
@@ -82,7 +103,7 @@ export const slice = createSlice({
   },
 });
 
-export const { move, resize, scale, add, moveUp } = slice.actions;
+export const { move, resize, scale, add, changeProps, moveUp } = slice.actions;
 
 export const selectChildren = (state: RootState) => state.stage.children;
 

@@ -1,4 +1,4 @@
-import { BaseSchema, Category } from '@/interface';
+import { Category, DefineSchema } from '@/interface';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { updateList } from '@/store/materialSlice';
 import { add } from '@/store/stageSlice';
@@ -10,24 +10,26 @@ import s from './SidebarLeft.less';
 
 const { TabPane } = Tabs;
 
-const Item: FC<{ item: BaseSchema }> = ({ item }) => {
+const Item: FC<{ item: DefineSchema }> = ({ item }) => {
   const dispatch = useAppDispatch();
 
   const addToStage = function () {
     dispatch(add({ schema: item }));
   };
 
+  const base = item.base;
+
   return (
-    <List.Item className={s.BasicList} key={item.$cid} onClick={addToStage}>
+    <List.Item className={s.BasicList} key={base.cid} onClick={addToStage}>
       <div className={s.ListItem}>
-        <img src={item.$icon} />
-        <span>{item.$name}</span>
+        <img src={base.icon} />
+        <span>{base.name}</span>
       </div>
     </List.Item>
   );
 };
 
-const InternalList: FC<{ list: BaseSchema[] }> = ({ list }) => (
+const InternalList: FC<{ list: DefineSchema[] }> = ({ list }) => (
   <List
     className={s.List}
     grid={{ column: 4, gutter: 8 }}

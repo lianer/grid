@@ -1,11 +1,11 @@
-import { BaseSchema, Category } from '@/interface';
+import { Category, DefineSchema } from '@/interface';
 import { getBasicList, getChartList, getMapList } from '@/loader';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
 interface State {
-  list: BaseSchema[];
+  list: DefineSchema[];
 }
 
 const initialState: State = {
