@@ -1,9 +1,11 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import material from './materialSlice';
+import stage from './stageSlice';
 
 export const store = configureStore({
   reducer: {
     material,
+    stage,
   },
 });
 

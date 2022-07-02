@@ -11,7 +11,7 @@ export enum Category {
 }
 
 export type BaseSchema = {
-  $id: number;
+  $cid: number;
   $name: string;
   $icon: string;
   $category: Category;

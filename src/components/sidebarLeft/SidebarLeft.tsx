@@ -1,6 +1,7 @@
 import { BaseSchema, Category } from '@/interface';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { updateList } from '@/store/materialSlice';
+import { add } from '@/store/stageSlice';
 import { useMount } from 'ahooks';
 import { List, Tabs } from 'antd';
 import { FC, useEffect, useState } from 'react';
@@ -9,14 +10,22 @@ import s from './SidebarLeft.less';
 
 const { TabPane } = Tabs;
 
-const Item: FC<{ item: BaseSchema }> = ({ item }) => (
-  <List.Item className={s.BasicList} key={item.$id}>
-    <div className={s.ListItem}>
-      <img src={item.$icon} />
-      <span>{item.$name}</span>
-    </div>
-  </List.Item>
-);
+const Item: FC<{ item: BaseSchema }> = ({ item }) => {
+  const dispatch = useAppDispatch();
+
+  const addToStage = function () {
+    dispatch(add({ schema: item }));
+  };
+
+  return (
+    <List.Item className={s.BasicList} key={item.$cid} onClick={addToStage}>
+      <div className={s.ListItem}>
+        <img src={item.$icon} />
+        <span>{item.$name}</span>
+      </div>
+    </List.Item>
+  );
+};
 
 const InternalList: FC<{ list: BaseSchema[] }> = ({ list }) => (
   <List

@@ -1,4 +1,5 @@
 import SidebarLeft from '@/components/SidebarLeft';
+import Stage from '@/components/Stage';
 import { Layout } from 'antd';
 import s from './index.less';
 
@@ -15,7 +16,9 @@ const HomePage: React.FC = () => {
           <Sider width={400}>
             <SidebarLeft />
           </Sider>
-          <Content>Stage</Content>
+          <Content>
+            <Stage />
+          </Content>
           <Sider width={400}>Sider</Sider>
         </Layout>
       </Layout>

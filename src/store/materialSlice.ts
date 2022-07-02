@@ -1,6 +1,6 @@
 import { BaseSchema, Category } from '@/interface';
-import { schema as imageSchema } from '@/materials/Image';
-import { schema as textSchema } from '@/materials/Text';
+import { getBasicList, getChartList, getMapList } from '@/loader';
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
@@ -10,17 +10,6 @@ interface State {
 
 const initialState: State = {
   list: [],
-};
-
-const getBasicList = () => {
-  const list = [textSchema, imageSchema];
-  return JSON.parse(JSON.stringify(list));
-};
-const getChartList = () => {
-  return [];
-};
-const getMapList = () => {
-  return [];
 };
 
 export const slice = createSlice({
