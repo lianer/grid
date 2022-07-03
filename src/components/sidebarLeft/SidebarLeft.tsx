@@ -1,7 +1,7 @@
-import { Category, DefineSchema } from '@/interface';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { updateList } from '@/store/materialSlice';
 import { add } from '@/store/stageSlice';
+import { ComponentCategory, ComponentSchema } from '@/types';
 import { useMount } from 'ahooks';
 import { List, Tabs } from 'antd';
 import { FC, useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ import s from './SidebarLeft.less';
 
 const { TabPane } = Tabs;
 
-const Item: FC<{ item: DefineSchema }> = ({ item }) => {
+const Item: FC<{ item: ComponentSchema }> = ({ item }) => {
   const dispatch = useAppDispatch();
 
   const addToStage = function () {
@@ -29,7 +29,7 @@ const Item: FC<{ item: DefineSchema }> = ({ item }) => {
   );
 };
 
-const InternalList: FC<{ list: DefineSchema[] }> = ({ list }) => (
+const InternalList: FC<{ list: ComponentSchema[] }> = ({ list }) => (
   <List
     className={s.List}
     grid={{ column: 4, gutter: 8 }}
@@ -39,7 +39,7 @@ const InternalList: FC<{ list: DefineSchema[] }> = ({ list }) => (
 );
 
 const Material: FC = function () {
-  const [category, setCategory] = useState<Category>(Category.basic);
+  const [category, setCategory] = useState<ComponentCategory>('basic');
   const list = useAppSelector(selectMaterial);
   const dispatch = useAppDispatch();
 
@@ -56,7 +56,7 @@ const Material: FC = function () {
     <Tabs
       className={s.Tabs}
       defaultActiveKey="basic"
-      onChange={(activeKey) => setCategory(activeKey as Category)}
+      onChange={(activeKey) => setCategory(activeKey as ComponentCategory)}
     >
       <TabPane tab="基础控件" key="basic">
         <InternalList list={list} />

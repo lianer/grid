@@ -38,10 +38,31 @@
 
 编辑表单
 
-类型
+TS 类型定义
 
-2. 操作组件 BasicControlSchema/AutoHeightControlSchema...
-3. 组件定义 TextSchema/ImageSchema...
-4. 基础信息 BaseSchema
-5. 用于描述未知属性的类型 DefineSchema，可以进一步定义 Schema，使得在具体的场景下拥有更加准确的类型推导
+1. `ComponentSchema` - 组件描述信息（由 BaseSchema、ControlSchema、AttrsSchema 组成）
+   1. `TextSchema/ImageSchema...`
+   2. 在组件开发过程中，都是使用 `ComponentSchema` 进行类型推导，只有在 `Stage` 模式下，才使用 `DefineSchema` 进行类型推导
+2. `BaseSchema` - 组件基础描述信息
+   1. `BaseSchema` 拥有 cid、name、icon、category 等属性，用于描述组件的基本信息，常用于信息展示（比如侧边栏组件列表）
+3. `ControlSchema` - 操作组件描述信息
+   1. `BasicControlSchema/AutoHeightControlSchema...`
+   2. 不同的操作组件有不同的描述信息定义，比如一个 `Image` 组件如果定义了使用 `AutoHeightControlSchema` 操作组件，那该组件定义的 `ComponentSchema` 中就必须要提供 `AutoHeightControlSchema` 所需的参数
+4. `AttrsSchema` - 组件属性描述信息
+   1. 组件可以将自己需要开放编辑的属性，放到 `AttrsSchema` 中定义
+   2. 通过 `AttrUtils` 类对 `AttrsSchema` 进行定义，生成标准化的属性参数
+5. `DefineSchema<C, P>` - 渐进性类型推导描述信息
+   1. `DefineSchema<any, any>` - 表示只有 BaseSchema 是明确的，等同于 BaseSchema，ControlSchema 和 AttrsSchema 部分都是未知的 any 类型（当一个组件被 import() 动态导入的时候，它属于这一类情况）
+   2. `DefineSchema<ControlSchema, any>` - 表示在明确了 Control 类型后，推断出来的类型（具体逻辑在 `Control.tsx` 中）
+   3. `DefineSchema<ControlSchema, AttrsSchema>` - 表示明确了 ControlSchema 和 AttrsSchema 后推导出来的类型
 6. 舞台实例 InstanceSchema，在 DefineSchema 的基础上，增加了 iid，用以标识组件实例的唯一性
+
+类型分析
+
+1. 在组件开发模式下
+   1. BaseSchema、ControlSchema、AttrsSchema 都是可确定的，BaseSchema 还会额外提供 stage、onAttrsUpdate 两个可选的参数
+2. 在 Stage 编辑模式下
+   1. 只有 BaseSchema 是可以确定的
+   2. ControlSchema 可以通过 control.type 推断出来
+   3. AttrsSchema 无法推断，也无需推断
+   4. 因此在 Stage 模式下，组件只需要区分是否实例化就可以了，用 ComponentSchema/InstanceSchema 区分

@@ -1,4 +1,4 @@
-import { DefineSchema, InstanceSchema } from '@/interface';
+import { AttrsSchema, ComponentSchema, InstanceSchema } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { merge } from 'lodash-es';
 import { RootState } from './store';
@@ -47,8 +47,8 @@ export const slice = createSlice({
       state.scale = payload.scale;
     },
 
-    add: (state, { payload }: PayloadAction<{ schema: DefineSchema }>) => {
-      // 从侧边栏添加到舞台，添加 iid 属性，从 DefineSchema 转变为 InstanceSchema
+    add: (state, { payload }: PayloadAction<{ schema: ComponentSchema }>) => {
+      // 从侧边栏添加到舞台，添加 iid 属性，从 ComponentSchema 转变为 InstanceSchema
       const iid = Date.now();
       const instanceSchema: InstanceSchema = {
         ...payload.schema,
@@ -58,25 +58,25 @@ export const slice = createSlice({
       state.active = iid;
     },
 
-    changeProps: (
+    changeAttrs: (
       state,
-      { payload }: PayloadAction<{ iid: number; props: DefineSchema }>,
+      { payload }: PayloadAction<{ iid: number; attrs: AttrsSchema }>,
     ) => {
       state.children = state.children.map((item) => {
         if (item.iid === payload.iid) {
-          const props = { ...item.props };
-          for (let [key, value] of Object.entries(payload.props)) {
-            if (props.hasOwnProperty(key)) {
-              merge(props, { [key]: value });
+          const attrs = { ...item.attrs };
+          for (let [key, value] of Object.entries(payload.attrs)) {
+            if (attrs.hasOwnProperty(key)) {
+              merge(attrs, { [key]: value });
             } else {
-              console.error(`changeProps: 组件 %o 不存在属性 props.${key}`, {
+              console.error(`changeAttrs: 组件 %o 不存在属性 attrs.${key}`, {
                 ...item,
               });
             }
           }
           return {
             ...item,
-            props,
+            attrs,
           };
         }
         return item;
@@ -103,7 +103,7 @@ export const slice = createSlice({
   },
 });
 
-export const { move, resize, scale, add, changeProps, moveUp } = slice.actions;
+export const { move, resize, scale, add, changeAttrs, moveUp } = slice.actions;
 
 export const selectChildren = (state: RootState) => state.stage.children;
 

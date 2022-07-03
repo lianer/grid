@@ -1,11 +1,11 @@
-import { Category, DefineSchema } from '@/interface';
 import { getBasicList, getChartList, getMapList } from '@/loader';
+import { ComponentCategory, ComponentSchema } from '@/types';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
 interface State {
-  list: DefineSchema[];
+  list: ComponentSchema[];
 }
 
 const initialState: State = {
@@ -16,15 +16,18 @@ export const slice = createSlice({
   name: 'material',
   initialState,
   reducers: {
-    updateList: (state, { payload }: PayloadAction<{ category: Category }>) => {
+    updateList: (
+      state,
+      { payload }: PayloadAction<{ category: ComponentCategory }>,
+    ) => {
       switch (payload.category) {
-        case Category.basic:
+        case 'basic':
           state.list = getBasicList();
           break;
-        case Category.chart:
+        case 'chart':
           state.list = getChartList();
           break;
-        case Category.map:
+        case 'map':
           state.list = getMapList();
           return;
       }

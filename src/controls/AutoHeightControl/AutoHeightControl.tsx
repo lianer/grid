@@ -1,13 +1,11 @@
-import { AutoHeightControlSchema } from '@/interface';
+import { AutoHeightControlSchema } from '@/types';
 import { FC, PropsWithChildren } from 'react';
 import s from './AutoHeightControl.less';
 
-const BasicControl: FC<PropsWithChildren<AutoHeightControlSchema>> = function ({
-  children,
-  width,
-  left,
-  top,
-}) {
+const BasicControl: FC<
+  PropsWithChildren<{ control: AutoHeightControlSchema }>
+> = function ({ children, control }) {
+  const { width, left, top } = control;
   return (
     <div
       className={s.BasicControl}

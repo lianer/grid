@@ -1,27 +1,27 @@
 import Control from '@/controls/Control/Control';
-import { DefineSchema } from '@/interface';
 import { loadById } from '@/loader';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { changeProps, selectChildren } from '@/store/stageSlice';
-import { ReactNode, useEffect, useState } from 'react';
+import { changeAttrs, selectChildren } from '@/store/stageSlice';
+import { AttrsSchema } from '@/types';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import s from './Stage.less';
 
-const Stage = function () {
+const Stage: FC = function () {
   const [Components, setComponents] = useState<ReactNode[]>([]);
   const dispatch = useAppDispatch();
   const children = useAppSelector(selectChildren);
 
   useEffect(() => {
-    const Components = children.map((props) => {
-      const Comp = loadById(props.base.cid);
+    const Components = children.map((child) => {
+      const Comp = loadById(child.base.cid);
       return (
-        <Control key={props.iid} {...props}>
+        <Control key={child.iid} control={child.control}>
           <Comp
-            {...props}
+            {...child}
             stage={true}
-            onCompUpdate={(newProps: DefineSchema) => {
+            onCompUpdate={(_attrs: AttrsSchema) => {
               // 暴露给组件直接修改自身属性的口子
-              dispatch(changeProps({ iid: props.iid, props: newProps }));
+              dispatch(changeAttrs({ iid: child.iid, attrs: _attrs }));
             }}
           ></Comp>
         </Control>

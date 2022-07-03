@@ -1,14 +1,14 @@
-import { BasicControlSchema, Category, DefineSchema } from '@/interface';
-import { Attrs } from '@/schema/attrs';
+import { AttrUtils } from '@/lib/AttrUtils';
+import { BasicControlSchema, DefineSchema } from '@/types';
 
 type TextSchema = DefineSchema<
   BasicControlSchema,
   {
-    text: Attrs.TextInput;
-    fontSize: Attrs.NumberInput;
-    fontWeight: Attrs.Selector;
-    color: Attrs.ColorPicker;
-    opacity: Attrs.Slider;
+    text: AttrUtils.TextInput;
+    fontSize: AttrUtils.NumberInput;
+    fontWeight: AttrUtils.Selector;
+    color: AttrUtils.ColorPicker;
+    opacity: AttrUtils.Slider;
   }
 >;
 
@@ -17,8 +17,9 @@ const schema: TextSchema = {
     cid: 1,
     name: '文本',
     icon: 'https://lianer-design-hd1.oss-cn-hangzhou.aliyuncs.com/projects/grid/text.svg',
-    category: Category.basic,
+    category: 'basic',
   },
+
   control: {
     type: 'BasicControlSchema',
     width: 100,
@@ -26,15 +27,16 @@ const schema: TextSchema = {
     left: 0,
     top: 0,
   },
-  props: {
-    text: new Attrs.TextInput({}),
-    fontSize: new Attrs.NumberInput({ val: 14 }),
-    fontWeight: new Attrs.Selector({
+
+  attrs: {
+    text: new AttrUtils.TextInput({}),
+    fontSize: new AttrUtils.NumberInput({ val: 14 }),
+    fontWeight: new AttrUtils.Selector({
       val: 'normal',
       options: ['normal', 'bold', 'italic'],
     }),
-    color: new Attrs.ColorPicker({}),
-    opacity: new Attrs.Slider({}),
+    color: new AttrUtils.ColorPicker({}),
+    opacity: new AttrUtils.Slider({}),
   },
 };
 

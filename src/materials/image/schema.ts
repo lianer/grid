@@ -1,5 +1,5 @@
-import { AutoHeightControlSchema, Category, DefineSchema } from '@/interface';
-import Attrs from '@/schema/attrs';
+import Attrs from '@/lib/AttrUtils';
+import { AutoHeightControlSchema, DefineSchema } from '@/types';
 
 type ImageSchema = DefineSchema<
   AutoHeightControlSchema,
@@ -14,7 +14,7 @@ const schema: ImageSchema = {
     cid: 2,
     name: '图片',
     icon: 'https://lianer-design-hd1.oss-cn-hangzhou.aliyuncs.com/projects/grid/image.svg',
-    category: Category.basic,
+    category: 'basic',
   },
   control: {
     type: 'AutoHeightControlSchema',
@@ -23,7 +23,7 @@ const schema: ImageSchema = {
     top: 0,
   },
 
-  props: {
+  attrs: {
     src: new Attrs.TextInput({ val: '' }),
     opacity: new Attrs.Slider({}),
   },
