@@ -2,15 +2,21 @@ import { FC } from 'react';
 import { TextSchema } from './schema';
 
 const Component: FC<TextSchema> = ({
+  control: {},
   attrs: { text, fontSize, fontWeight, color, opacity },
 }) => {
   return (
-    <div>
-      <p>text.val: {text.val}</p>
-      <p>fontSize.val: {fontSize.val}</p>
-      <p>fontWeight.val: {fontWeight.val}</p>
-      <p>color.val: {color.val}</p>
-      <p>opacity.val: {opacity.val}</p>
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        fontSize: `${fontSize.val}px`,
+        fontWeight: fontWeight.val,
+        color: color.val,
+        opacity: opacity.val,
+      }}
+    >
+      {text.val}
     </div>
   );
 };

@@ -22,20 +22,20 @@ const schema: TextSchema = {
 
   control: {
     type: 'BasicControlSchema',
-    width: 100,
-    height: 14,
+    width: 200,
+    height: 64,
     left: 0,
     top: 0,
   },
 
   attrs: {
-    text: new AttrUtils.TextInput({}),
+    text: new AttrUtils.TextInput({ val: '文本' }),
     fontSize: new AttrUtils.NumberInput({ val: 14 }),
     fontWeight: new AttrUtils.Selector({
       val: 'normal',
       options: ['normal', 'bold', 'italic'],
     }),
-    color: new AttrUtils.ColorPicker({}),
+    color: new AttrUtils.ColorPicker({ val: '#333' }),
     opacity: new AttrUtils.Slider({}),
   },
 };

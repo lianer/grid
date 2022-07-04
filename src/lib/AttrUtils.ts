@@ -42,7 +42,7 @@ export namespace AttrUtils {
     type = 'ColorPicker';
     val: string;
     constructor(attrs: Partial<{ val: string }>) {
-      this.val = attrs.val ?? '#fff';
+      this.val = attrs.val ?? '#000';
     }
   }
 
