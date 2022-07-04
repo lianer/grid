@@ -1,3 +1,4 @@
+import Store from '@/lib/Store';
 import { AttrsSchema, ComponentSchema, InstanceSchema } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { merge } from 'lodash-es';
@@ -13,10 +14,11 @@ interface State {
   children: InstanceSchema[]; // 舞台中已经添加的组件
 }
 
-const enableStorage = true;
-const storage = enableStorage
-  ? window.localStorage.getItem('state.stage.children')
-  : undefined;
+// const enableStorage = true;
+// const storage = enableStorage
+//   ? window.localStorage.getItem('state.stage.children')
+//   : undefined;
+const stageStore = new Store({ disable: false, key: 'state.stage.children' });
 
 const initialState: State = {
   width: 1200,
@@ -24,7 +26,7 @@ const initialState: State = {
   left: 0,
   top: 0,
   scale: 1,
-  children: storage ? JSON.parse(storage) : [],
+  children: stageStore.read() || [],
   active: null,
 };
 
@@ -62,12 +64,14 @@ export const slice = createSlice({
       state.children = [...state.children, instanceSchema];
       state.active = iid;
 
-      if (enableStorage) {
-        window.localStorage.setItem(
-          'state.stage.children',
-          JSON.stringify(state.children),
-        );
-      }
+      stageStore.save(state.children);
+
+      // if (enableStorage) {
+      //   window.localStorage.setItem(
+      //     'state.stage.children',
+      //     JSON.stringify(state.children),
+      //   );
+      // }
     },
 
     changeAttrs: (

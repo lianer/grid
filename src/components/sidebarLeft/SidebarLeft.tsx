@@ -16,9 +16,10 @@ const tabs: Record<ComponentCategory, string> = {
 
 const { TabPane } = Tabs;
 
-const Item: FC<{ item: ComponentSchema; index: number }> = ({
+const Item: FC<{ item: ComponentSchema; index: number; length: number }> = ({
   item,
   index,
+  length,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -32,12 +33,13 @@ const Item: FC<{ item: ComponentSchema; index: number }> = ({
 
   const base = item.base;
 
-  const borderRight = index % 2 === 0 ? 'border-r' : '';
-  const borderTop = index > 1 ? 'border-t' : '';
+  const borderRight = index % 2 === 0 ? 'border-r' : 'border-r-0';
+  const borderBottom =
+    index <= Math.floor((length - 1) / 2) ? 'border-b' : 'border-b-0';
 
   return (
     <List.Item
-      className={`h-32 pt-6 pb-4 mb-0 overflow-hidden ${borderRight} ${borderTop} border-gray-100 hover:bg-gray-50 opacity-60 hover:opacity-100 transition-opacity`}
+      className={`h-32 pt-6 pb-4 mb-0 overflow-hidden border-solid ${borderRight} ${borderBottom} border-gray-100 hover:bg-gray-50 opacity-60 hover:opacity-100 transition-opacity`}
       key={base.cid}
       onClick={addToStage}
     >
@@ -76,7 +78,7 @@ const SidebarLeft: FC = function () {
             grid={{ column: 2, gutter: 0 }}
             dataSource={list}
             renderItem={(item, index) => (
-              <Item item={item} index={index}></Item>
+              <Item item={item} index={index} length={list.length}></Item>
             )}
           />
         </TabPane>
