@@ -8,37 +8,49 @@ import { FC, useEffect, useState } from 'react';
 import { selectMaterial } from '../../store/materialSlice';
 import s from './SidebarLeft.less';
 
+const tabs: Record<ComponentCategory, string> = {
+  basic: '基础控件',
+  chart: '可视化组件',
+  map: '地图组件',
+};
+
 const { TabPane } = Tabs;
 
-const Item: FC<{ item: ComponentSchema }> = ({ item }) => {
+const Item: FC<{ item: ComponentSchema; index: number }> = ({
+  item,
+  index,
+}) => {
   const dispatch = useAppDispatch();
 
   const addToStage = function () {
+    console.log(
+      `[Grid] add component(cid: ${item.base.cid}) %o to stage`,
+      item,
+    );
     dispatch(add({ schema: item }));
   };
 
   const base = item.base;
 
+  const borderRight = index % 2 === 0 ? 'border-r' : '';
+  const borderTop = index > 1 ? 'border-t' : '';
+
   return (
-    <List.Item className={s.BasicList} key={base.cid} onClick={addToStage}>
-      <div className={s.ListItem}>
-        <img src={base.icon} />
-        <span>{base.name}</span>
-      </div>
+    <List.Item
+      className={`h-32 pt-6 pb-4 mb-0 overflow-hidden ${borderRight} ${borderTop} border-gray-100 hover:bg-gray-50 opacity-60 hover:opacity-100 transition-opacity`}
+      key={base.cid}
+      onClick={addToStage}
+    >
+      <img
+        className={`block w-10 h-10 mx-auto mb-2 object-contain fill-current	text-green-600 ${s.Icon}`}
+        src={base.icon}
+      />
+      <span className="block text-base text-center">{base.name}</span>
     </List.Item>
   );
 };
 
-const InternalList: FC<{ list: ComponentSchema[] }> = ({ list }) => (
-  <List
-    className={s.List}
-    grid={{ column: 4, gutter: 8 }}
-    dataSource={list}
-    renderItem={(item) => <Item item={item}></Item>}
-  />
-);
-
-const Material: FC = function () {
+const SidebarLeft: FC = function () {
   const [category, setCategory] = useState<ComponentCategory>('basic');
   const list = useAppSelector(selectMaterial);
   const dispatch = useAppDispatch();
@@ -54,21 +66,23 @@ const Material: FC = function () {
 
   return (
     <Tabs
-      className={s.Tabs}
+      className={`${s.SidebarLeft} h-full`}
       defaultActiveKey="basic"
       onChange={(activeKey) => setCategory(activeKey as ComponentCategory)}
     >
-      <TabPane tab="基础控件" key="basic">
-        <InternalList list={list} />
-      </TabPane>
-      <TabPane tab="可视化组件" key="chart">
-        <InternalList list={list} />
-      </TabPane>
-      <TabPane tab="地图组件" key="map">
-        <InternalList list={list} />
-      </TabPane>
+      {Object.entries(tabs).map(([key, tab]) => (
+        <TabPane tab={tab} key={key} className="px-4">
+          <List
+            grid={{ column: 2, gutter: 0 }}
+            dataSource={list}
+            renderItem={(item, index) => (
+              <Item item={item} index={index}></Item>
+            )}
+          />
+        </TabPane>
+      ))}
     </Tabs>
   );
 };
 
-export default Material;
+export default SidebarLeft;

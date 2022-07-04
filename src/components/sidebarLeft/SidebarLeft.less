@@ -1,44 +1,36 @@
-.Tabs:global(.ant-tabs) {
-  color: #fff;
-}
-
-.Tabs :global(.ant-tabs-tab-btn) {
-  padding: 0 20px;
-}
-
-.List {
-  padding: 0 16px 16px;
-}
-
-.ListItem {
-  padding: 4px 8px;
-  overflow: hidden;
-  color: #333;
-  background: #fafafa;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease-out;
-  user-select: none;
-
-  img {
-    @size: 48px;
-    display: block;
-    width: @size;
-    height: @size;
-    object-fit: contain;
-    margin: 0 auto 4px;
-    transform: translateX(1000px);
-    filter: drop-shadow(#1890ff -1000px 0);
-    overflow: hidden;
+.SidebarLeft {
+  &:global(.ant-tabs) {
+    color: #333;
   }
 
-  span {
-    display: block;
-    font-size: 16px;
-    text-align: center;
-  }
+  :global {
+    .ant-tabs-nav-wrap {
+      padding: 0 8px;
+    }
 
-  &:hover {
-    background: #eee;
+    .ant-tabs-tab-btn {
+      padding: 0 8px;
+    }
+
+    .ant-tabs-tab + .ant-tabs-tab {
+      margin-left: 8px;
+    }
+
+    .ant-tabs-tab .ant-tabs-tab-btn {
+      color: #999;
+    }
+
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+      color: #333;
+    }
+
+    .ant-tabs-ink-bar {
+      background: #333;
+    }
   }
+}
+
+.Icon {
+  transform: translateX(1000px);
+  filter: drop-shadow(#333 -1000px 0);
 }

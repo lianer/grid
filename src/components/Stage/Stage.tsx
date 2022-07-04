@@ -11,6 +11,8 @@ const Stage: FC = function () {
   const dispatch = useAppDispatch();
   const children = useAppSelector(selectChildren);
 
+  // TODO: 增强 props 参数错误/缺少等异常情况的处理
+
   useEffect(() => {
     const Components = children.map((child) => {
       const Comp = loadById(child.base.cid);
