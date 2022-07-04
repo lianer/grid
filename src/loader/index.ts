@@ -1,3 +1,4 @@
+import carousel from '@/materials/carousel';
 import image from '@/materials/image';
 import text from '@/materials/text';
 import { ComponentType, lazy, LazyExoticComponent } from 'react';
@@ -7,8 +8,9 @@ const components = {
   // 2: image.Component,
   1: lazy(() => import('@/materials/text/Component')),
   2: lazy(() => import('@/materials/image/Component')),
+  3: lazy(() => import('@/materials/carousel/Component')),
 };
-const schemaList = [text.schema, image.schema];
+const schemaList = [text.schema, image.schema, carousel.schema];
 
 export const getBasicList = () => {
   return JSON.parse(JSON.stringify(schemaList));

@@ -8,6 +8,10 @@ export type ComponentSchema = {
   base: BaseSchema;
   control: ControlSchema;
   attrs: AttrsSchema;
+
+  // 组件在舞台中时才有的属性
+  stage?: boolean;
+  onCompUpdate?: (_attrs: Object) => void;
 };
 
 // InstanceSchema 用于对动态加载的组件的类型描述
@@ -16,4 +20,8 @@ export type InstanceSchema = {
   base: BaseSchema;
   control: ControlSchema;
   attrs: AttrsSchema;
+
+  // 组件在舞台中时才有的属性
+  stage?: boolean;
+  onCompUpdate?: (_attrs: Object) => void;
 };

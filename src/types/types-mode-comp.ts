@@ -9,4 +9,8 @@ export type DefineSchema<C = ControlSchema, P = {}> = {
   base: BaseSchema;
   control: C;
   attrs: P;
+
+  // 组件在舞台中时才有的属性
+  stage?: boolean;
+  onCompUpdate?: (_attrs: Object) => void;
 };

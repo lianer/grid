@@ -7,10 +7,40 @@ export namespace AttrUtils {
     val: string;
     maxLen: number;
     minLen: number;
+
     constructor(
-      attrs: Partial<{ val: string; maxLen: number; minLen: number }>,
+      attrs: Partial<{
+        val: string;
+        maxLen: number;
+        minLen: number;
+      }>,
     ) {
       this.val = attrs.val ?? '';
+      this.maxLen = attrs.maxLen ?? 10000;
+      this.minLen = attrs.minLen ?? 0;
+    }
+  }
+
+  export class TextInputList {
+    type = 'TextInputList';
+    val: string[];
+    maxListLen: number;
+    minListLen: number;
+    maxLen: number;
+    minLen: number;
+
+    constructor(
+      attrs: Partial<{
+        val: string[];
+        maxListLen: number;
+        minListLen: number;
+        maxLen: number;
+        minLen: number;
+      }>,
+    ) {
+      this.val = attrs.val ?? [];
+      this.maxListLen = attrs.maxListLen ?? 15;
+      this.minListLen = attrs.minListLen ?? 0;
       this.maxLen = attrs.maxLen ?? 10000;
       this.minLen = attrs.minLen ?? 0;
     }
