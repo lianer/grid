@@ -13,13 +13,18 @@ interface State {
   children: InstanceSchema[]; // 舞台中已经添加的组件
 }
 
+const enableStorage = true;
+const storage = enableStorage
+  ? window.localStorage.getItem('state.stage.children')
+  : undefined;
+
 const initialState: State = {
   width: 1200,
   height: 800,
   left: 0,
   top: 0,
   scale: 1,
-  children: [],
+  children: storage ? JSON.parse(storage) : [],
   active: null,
 };
 
@@ -56,6 +61,13 @@ export const slice = createSlice({
       };
       state.children = [...state.children, instanceSchema];
       state.active = iid;
+
+      if (enableStorage) {
+        window.localStorage.setItem(
+          'state.stage.children',
+          JSON.stringify(state.children),
+        );
+      }
     },
 
     changeAttrs: (
