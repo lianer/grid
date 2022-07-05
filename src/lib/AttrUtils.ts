@@ -2,6 +2,50 @@
 // 每一种类型都对应一种编辑表单的样式，比如 TextInput 对应文本输入框，Int 对应数字输入框，Selector 对应选择框，ColorPicker 对应颜色选择器
 
 export namespace AttrUtils {
+  type GetElementType<T extends any[]> = T extends (infer U)[]
+    ? U extends any[]
+      ? GetElementType<U>
+      : U
+    : never;
+
+  type PosRef = GetElementType<
+    [
+      ['left-top', 'top', 'right-top'],
+      ['left', 'center', 'right'],
+      ['left-bottom', 'bottom', 'right-bottom'],
+    ]
+  >;
+
+  export class Position {
+    type = 'Position';
+    ref: PosRef;
+    x: number;
+    y: number;
+
+    constructor(
+      attrs: Partial<{
+        ref: PosRef;
+        x: number;
+        y: number;
+      }>,
+    ) {
+      this.ref = attrs.ref ?? 'left-top';
+      this.x = attrs.x ?? 0;
+      this.y = attrs.y ?? 0;
+    }
+  }
+
+  export class Size {
+    type = 'Size';
+    width: number;
+    height: number;
+
+    constructor(attrs: Partial<{ width: number; height: number }>) {
+      this.width = attrs.width ?? 200;
+      this.height = attrs.height ?? 100;
+    }
+  }
+
   export class TextInput {
     type = 'TextInput';
     val: string;
