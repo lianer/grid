@@ -1,4 +1,5 @@
 import SidebarLeft from '@/components/SidebarLeft';
+import Sidebarright from '@/components/Sidebarright';
 import Stage from '@/components/Stage';
 import { Link } from 'umi';
 
@@ -6,7 +7,7 @@ const MenuBar: React.FC = function () {
   return (
     <div className="flex flex-row items-center h-8 px-4 gap-4">
       <Link to="">Home</Link>
-      <Link to="">About</Link>
+      <Link to="/about">About</Link>
       <Link to="">Util</Link>
       <Link to="">Help</Link>
     </div>
@@ -39,7 +40,9 @@ const HomePage: React.FC = function () {
           <main className="flex-1 h-full bg-gray-50">
             <Stage />
           </main>
-          <aside className="w-80 h-full border-l">Sider</aside>
+          <aside className="w-80 h-full border-l">
+            <Sidebarright />
+          </aside>
         </main>
       </main>
     </>
