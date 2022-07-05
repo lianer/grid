@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { updateList } from '@/store/materialSlice';
 import { add } from '@/store/stageSlice';
 import { ComponentCategory, ComponentSchema } from '@/types';
-import { useMount } from 'ahooks';
 import { List, Tabs } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { selectMaterial } from '../../store/materialSlice';
@@ -61,10 +60,6 @@ const SidebarLeft: FC = function () {
   useEffect(() => {
     dispatch(updateList({ category }));
   }, [category]);
-
-  useMount(() => {
-    dispatch(updateList({ category }));
-  });
 
   return (
     <Tabs
