@@ -24,6 +24,7 @@
 5. 物料加载器 loader
    1. 根据 source 地址加载物料，如果已经加载过的，则直接返回结果
 6. 流程：Grid 加载 -> 根据物料区激活的 Tab 加载对应的物料 Schema 列表 -> 通过点击、拖拽添加物料到舞台中 -> 通过 loader 加载 source （构造函数） -> 通过构造函数创建物料实例 -> 添加物料实例到舞台中
+7. 层级控制，分背景层 layer.background、普通层 layer.normal、浮动层 layer.float、弹窗层 layer.popup
 
 舞台
 
@@ -35,6 +36,13 @@
    1. 向舞台中添加物料，并通过物料类使用 ComponentSchema 创建物料实例，数据结构转变为 InstanceSchema
 
 编辑表单
+
+1. 属性分为显式属性和隐式属性，隐式属性使用 $ 开头命名
+2. 编辑区需要根据 attrs 的定义，将显式属性的配置项渲染出来
+3. 每一种 attr 类型都对应一种编辑组件
+4. 一个物料可能会有非常多的 attrs，配置繁琐，因此可以通过 attrsGroups 对 attrs 进行进一层包装，使得同一类的物料可以复用 attrs 定义，比如 svg 组件类别，以减少 attrs 的配置项
+5. 编辑区还会维护一个 priorityAttrs，可以将一些通用性的属性的优先级提高，也可以保持常见属性的优先级在不同的物料下都是相同的，比如定位、尺寸始终都是在最顶部的
+6. 编辑区根据 ControlSchema 的类型会区分展示相关的定位编辑组件
 
 TS 类型定义
 
@@ -66,3 +74,13 @@ TS 类型定义
    2. ControlSchema 可以通过 control.type 推断出来
    3. AttrsSchema 无法推断，也无需推断
    4. 因此在 Stage 模式下，组件只需要区分是否实例化就可以了，用 ComponentSchema/InstanceSchema 区分
+
+## 依赖
+
+- redux
+- umi
+- antd
+- ahooks
+- lodash-es
+- react-dnd - drag and drop
+- react-rnd - movable and resizable <https://github.com/bokuweb/react-rnd>

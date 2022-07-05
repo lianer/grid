@@ -10,11 +10,16 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
     "@types/lodash-es": "^4.17.6",
+    "@types/redux-logger": "^3.0.9",
     "ahooks": "^3.5.1",
     "antd": "^4.21.4",
     "lodash-es": "^4.17.21",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-redux": "^8.0.2",
+    "react-rnd": "^10.3.7",
     "redux": "^4.2.0",
+    "redux-logger": "^3.0.6",
     "umi": "^4.0.5"
   },
   "devDependencies": {
