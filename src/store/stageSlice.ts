@@ -1,6 +1,11 @@
 import Store from '@/lib/Store';
-import { AttrsSchema, ComponentSchema, InstanceSchema } from '@/types';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  AttrsSchema,
+  ComponentSchema,
+  ControlSchema,
+  InstanceSchema,
+} from '@/types';
+import { createSlice, Middleware, PayloadAction } from '@reduxjs/toolkit';
 import { merge } from 'lodash-es';
 import { RootState } from './store';
 
@@ -14,19 +19,31 @@ interface State {
   children: InstanceSchema[]; // 舞台中已经添加的组件
 }
 
-// const enableStorage = true;
-// const storage = enableStorage
-//   ? window.localStorage.getItem('state.stage.children')
-//   : undefined;
-const stageStore = new Store({ disable: false, key: 'state.stage.children' });
+const stageStore = new Store({ disable: false, key: 'state.stage' });
 
-const initialState: State = {
+const center = (
+  stageSize: { width: number; height: number },
+  control: ControlSchema,
+) => {
+  switch (control.type) {
+    case 'BasicControlSchema':
+      return {
+        ...control,
+        left: (stageSize.width - control.width) / 2,
+        top: (stageSize.height - (control.height ?? 100)) / 2,
+      };
+    default:
+      return control;
+  }
+};
+
+const initialState: State = stageStore.read() || {
   width: 1200,
-  height: 800,
+  height: 600,
   left: 0,
   top: 0,
   scale: 1,
-  children: stageStore.read() || [],
+  children: [],
   active: null,
 };
 
@@ -34,7 +51,7 @@ export const slice = createSlice({
   name: 'stage',
   initialState,
   reducers: {
-    move: (
+    moveStage: (
       state,
       { payload }: PayloadAction<{ left: number; top: number }>,
     ) => {
@@ -42,7 +59,7 @@ export const slice = createSlice({
       state.top = payload.top ?? state.top;
     },
 
-    resize: (
+    resizeStage: (
       state,
       { payload }: PayloadAction<{ width: number; height: number }>,
     ) => {
@@ -50,28 +67,35 @@ export const slice = createSlice({
       state.height = payload.height ?? state.height;
     },
 
-    scale: (state, { payload }: PayloadAction<{ scale: number }>) => {
+    scaleStage: (state, { payload }: PayloadAction<{ scale: number }>) => {
       state.scale = payload.scale;
     },
 
     add: (state, { payload }: PayloadAction<{ schema: ComponentSchema }>) => {
       // 从侧边栏添加到舞台，添加 iid 属性，从 ComponentSchema 转变为 InstanceSchema
       const iid = Date.now();
+      const control = payload.schema.control;
       const instanceSchema: InstanceSchema = {
         ...payload.schema,
+        control: center({ width: state.width, height: state.height }, control),
         iid,
       };
       state.children = [...state.children, instanceSchema];
       state.active = iid;
+    },
 
-      stageStore.save(state.children);
-
-      // if (enableStorage) {
-      //   window.localStorage.setItem(
-      //     'state.stage.children',
-      //     JSON.stringify(state.children),
-      //   );
-      // }
+    move: (
+      state,
+      { payload }: PayloadAction<{ iid: number; x: number; y: number }>,
+    ) => {
+      const { iid, x, y } = payload;
+      state.children.find((child) => {
+        if (child.iid === iid) {
+          child.control.left = x;
+          child.control.top = y;
+          return true;
+        }
+      });
     },
 
     changeAttrs: (
@@ -103,6 +127,10 @@ export const slice = createSlice({
       state.active = payload.iid;
     },
 
+    inactive: (state) => {
+      state.active = null;
+    },
+
     moveUp: (state, { payload }: PayloadAction<{ iid: number }>) => {
       const children = [...state.children];
       const index = children.findIndex((item) => item.iid === payload.iid)!;
@@ -119,8 +147,29 @@ export const slice = createSlice({
   },
 });
 
-export const { move, resize, scale, add, changeAttrs, moveUp } = slice.actions;
+export const {
+  moveStage,
+  resizeStage,
+  scaleStage,
+  add,
+  move,
+  changeAttrs,
+  active,
+  inactive,
+  moveUp,
+} = slice.actions;
 
 export const selectChildren = (state: RootState) => state.stage.children;
+
+export const gridStorage: Middleware = function ({ getState }) {
+  return (next) => {
+    return (action) => {
+      next(action);
+      if (action.type.startsWith('stage/')) {
+        stageStore.save(getState().stage);
+      }
+    };
+  };
+};
 
 export default slice.reducer;

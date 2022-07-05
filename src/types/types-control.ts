@@ -5,7 +5,7 @@ export type ControlSchema = BasicControlSchema | AutoHeightControlSchema;
 export type BasicControlSchema = {
   type: 'BasicControlSchema';
   width: number;
-  height: number;
+  height?: number;
   left: number;
   top: number;
 };

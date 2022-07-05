@@ -10,6 +10,7 @@ const Component: FC<ImageSchema> = ({
     <img
       src={src.val}
       style={{
+        width: '100%',
         opacity: opacity.val,
       }}
       onError={(e) => {

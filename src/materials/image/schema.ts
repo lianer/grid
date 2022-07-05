@@ -1,8 +1,8 @@
 import Attrs from '@/lib/AttrUtils';
-import { AutoHeightControlSchema, DefineSchema } from '@/types';
+import { BasicControlSchema, DefineSchema } from '@/types';
 
 type ImageSchema = DefineSchema<
-  AutoHeightControlSchema,
+  BasicControlSchema,
   {
     src: Attrs.TextInput;
     opacity: Attrs.Slider;
@@ -17,8 +17,8 @@ const schema: ImageSchema = {
     category: 'basic',
   },
   control: {
-    type: 'AutoHeightControlSchema',
-    width: 200,
+    type: 'BasicControlSchema',
+    width: 400,
     left: 0,
     top: 0,
   },

@@ -4,7 +4,7 @@ import { Schema } from './schema';
 
 const Component: FC<Schema> = function ({ attrs: { opacity, images } }) {
   return (
-    <Carousel autoplay style={{ opacity: opacity.val }}>
+    <Carousel autoplay style={{ width: '100%', opacity: opacity.val }}>
       {images.val.map((img) => (
         <img key={img} src={img} />
       ))}

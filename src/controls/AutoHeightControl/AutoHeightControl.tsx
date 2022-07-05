@@ -1,24 +1,33 @@
 import { AutoHeightControlSchema } from '@/types';
 import { FC, PropsWithChildren } from 'react';
-import s from './AutoHeightControl.less';
 
-const BasicControl: FC<
-  PropsWithChildren<{ control: AutoHeightControlSchema }>
-> = function ({ children, control }) {
+const Control: FC<
+  PropsWithChildren<{
+    iid: number;
+    isActive: boolean;
+    control: AutoHeightControlSchema;
+  }>
+> = function ({ children, iid, isActive, control }) {
   const { width, left, top } = control;
   return (
     <div
-      className={s.BasicControl}
+      className="relative"
       style={{
         width,
-        height: 'auto',
         left,
         top,
+        outline: isActive ? '2px dashed #45a6ff' : 'none',
+        zIndex: isActive ? 2 : 1,
       }}
     >
-      {children}
+      <div>{children}</div>
+      <div
+        className={`absolute left-0 top-0 w-full h-full opacity-10 ${
+          isActive ? 'bg-blue-300' : ''
+        }`}
+      ></div>
     </div>
   );
 };
 
-export default BasicControl;
+export default Control;
