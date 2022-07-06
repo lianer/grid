@@ -68,7 +68,7 @@ const SidebarLeft: FC = function () {
       onChange={(activeKey) => setCategory(activeKey as ComponentCategory)}
     >
       {Object.entries(tabs).map(([key, tab]) => (
-        <TabPane tab={tab} key={key} className="px-4">
+        <TabPane tab={tab} key={key}>
           <List
             grid={{ column: 2, gutter: 0 }}
             dataSource={list}

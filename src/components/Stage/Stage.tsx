@@ -17,7 +17,9 @@ const CachedComp: FC<{
   const onCompUpdate = useCallback((_attrs: AttrsSchema) => {
     dispatch(changeAttrs({ iid: child.iid, attrs: _attrs }));
   }, []);
-  console.log('CachedComp rerender');
+
+  // console.log('CachedComp rerender');
+
   return (
     <Control key={child.iid} iid={child.iid} control={child.control}>
       <Comp {...child} stage={true} onCompUpdate={onCompUpdate}></Comp>
@@ -41,7 +43,9 @@ const Stage: FC = function () {
     setComponents(Components);
   }, [children]);
 
-  return <div className="Stage relative h-full">{Components}</div>;
+  return (
+    <div className="Stage relative h-full overflow-auto">{Components}</div>
+  );
 };
 
 export default Stage;

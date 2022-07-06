@@ -48,7 +48,7 @@ const Control: React.FC<
   const isActive = useAppSelector((state) => state.stage.active === iid);
   const dispatch = useAppDispatch();
 
-  console.log('Control rerender', children, iid, control, isActive);
+  // console.log('Control rerender', children, iid, control, isActive);
 
   const onControlClick = useCallback(() => {
     dispatch(active({ iid }));

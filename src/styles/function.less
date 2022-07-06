@@ -1,0 +1,39 @@
+.fn_sidebar () {
+  &:global(.ant-tabs) {
+    color: #333;
+  }
+
+  :global {
+    .ant-tabs-nav {
+      margin-bottom: 0;
+    }
+
+    .ant-tabs-nav-wrap {
+      padding: 0 8px;
+    }
+
+    .ant-tabs-tab-btn {
+      padding: 0 8px;
+    }
+
+    .ant-tabs-tab + .ant-tabs-tab {
+      margin-left: 8px;
+    }
+
+    .ant-tabs-tab .ant-tabs-tab-btn {
+      color: #999;
+    }
+
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+      color: #333;
+    }
+
+    .ant-tabs-ink-bar {
+      background: #333;
+    }
+
+    .ant-tabs-content-holder {
+      overflow-y: auto;
+    }
+  }
+}

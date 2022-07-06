@@ -33,7 +33,7 @@ const HomePage: React.FC = function () {
           <MenuBar />
           <ActionBar />
         </header>
-        <main className="flex flex-row h-full">
+        <main className="flex flex-1 flex-row overflow-hidden">
           <aside className="w-80 h-full border-r">
             <SidebarLeft />
           </aside>

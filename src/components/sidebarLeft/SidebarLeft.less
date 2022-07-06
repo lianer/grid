@@ -1,33 +1,8 @@
+@import '@/styles/function.less';
+
 .SidebarLeft {
-  &:global(.ant-tabs) {
-    color: #333;
-  }
-
-  :global {
-    .ant-tabs-nav-wrap {
-      padding: 0 8px;
-    }
-
-    .ant-tabs-tab-btn {
-      padding: 0 8px;
-    }
-
-    .ant-tabs-tab + .ant-tabs-tab {
-      margin-left: 8px;
-    }
-
-    .ant-tabs-tab .ant-tabs-tab-btn {
-      color: #999;
-    }
-
-    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-      color: #333;
-    }
-
-    .ant-tabs-ink-bar {
-      background: #333;
-    }
-  }
+  // 左右两侧 sidebar 的样式保持一致
+  .fn_sidebar();
 }
 
 .Icon {
