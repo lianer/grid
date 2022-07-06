@@ -1,7 +1,7 @@
 import { useAppDispatch } from '@/store/hooks';
 import { changeControl } from '@/store/stageSlice';
 import { BasicControlSchema } from '@/types';
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 import { Rnd } from 'react-rnd';
 
 const BasicControl: FC<
@@ -12,7 +12,12 @@ const BasicControl: FC<
   }>
 > = function ({ children, iid, isActive, control }) {
   const dispatch = useAppDispatch();
-  const { width, height, left, top } = control;
+
+  // 使用 state 储存 move、resize 等操作产生的临时数据
+  const [localControl, setLocalControl] = useState<BasicControlSchema>({
+    ...control,
+  });
+  const { width, height, left, top } = localControl;
 
   const autoHeight = height === undefined;
   const resizeOptions = {
@@ -26,6 +31,18 @@ const BasicControl: FC<
     bottomRight: !autoHeight,
   };
 
+  // 当 move、resize 结束后，一次性提交最新的 state，更新到 schema 中
+  const dispatchChangeControl = () => {
+    dispatch(
+      changeControl({
+        iid,
+        control: {
+          ...control,
+        },
+      }),
+    );
+  };
+
   return (
     <Rnd
       disableDragging={!isActive}
@@ -34,36 +51,23 @@ const BasicControl: FC<
         x: left,
         y: top,
       }}
-      onDragStop={(e, d) => {
-        // 当实例移动时，在 ControlComponent 中更新 ControlSchema
-        dispatch(
-          changeControl({
-            iid,
-            control: {
-              ...control,
-              left: d.x,
-              top: d.y,
-            },
-          }),
-        );
+      onDrag={(e, d) => {
+        setLocalControl({
+          ...localControl,
+          left: d.x,
+          top: d.y,
+        });
       }}
+      onDragStop={dispatchChangeControl}
       onResize={(e, d, ref) => {
-        // 当实例尺寸发生变化时，在 ControlComponent 中更新 ControlSchema
-        // ControlSchema 与 ControlComponent 是一对一的关系
-        // Redux changeControl 并不清楚提交过来的是哪个 ControlSchema
-        // 因此需要在 ControlComponent 中处理好数据后再触发 dispatch 更新 Redux
         const { width, height } = ref.getBoundingClientRect();
-        dispatch(
-          changeControl({
-            iid,
-            control: {
-              ...control,
-              width,
-              height: autoHeight ? undefined : height,
-            },
-          }),
-        );
+        setLocalControl({
+          ...control,
+          width,
+          height: autoHeight ? undefined : height,
+        });
       }}
+      onResizeStop={dispatchChangeControl}
     >
       <div
         className="BasicControl"
