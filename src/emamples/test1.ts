@@ -2,3 +2,18 @@
 // 'string' is assignable to the constraint of type 'T',
 // but 'T' could be instantiated with a different subtype of constraint 'string | string[]'
 // const func1 = <A extends string>(a: A = 'foo') => `hello!`;
+
+enum TabsEnum {
+  'GLOBAL',
+  'COMPONENT',
+  'EVENT',
+  'EFFECT',
+}
+
+const TabsConfig = {
+  [TabsEnum.GLOBAL]: '全局',
+};
+
+const global = TabsEnum[TabsEnum.GLOBAL];
+
+export {};

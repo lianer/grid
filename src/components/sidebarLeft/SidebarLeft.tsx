@@ -66,6 +66,7 @@ const SidebarLeft: FC = function () {
       className={`${s.SidebarLeft} h-full`}
       defaultActiveKey="basic"
       onChange={(activeKey) => setCategory(activeKey as ComponentCategory)}
+      animated={false}
     >
       {Object.entries(tabs).map(([key, tab]) => (
         <TabPane tab={tab} key={key}>

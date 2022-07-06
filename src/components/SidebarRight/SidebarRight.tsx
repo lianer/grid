@@ -2,16 +2,24 @@ import { AttrUtils } from '@/lib/AttrUtils';
 import { useAppSelector } from '@/store/hooks';
 import { InstanceSchema } from '@/types';
 import { Tabs } from 'antd';
+import { useEffect, useState } from 'react';
 import s from './SidebarRight.less';
 
 const { TabPane } = Tabs;
 
-enum SidebarTabs {
-  'GLOBAL' = '全局',
-  'COMPONENT' = '组件',
-  'EVENT' = '事件',
-  'EFFECT' = '特效',
+enum TabsEnum {
+  'GLOBAL' = 'global',
+  'COMPONENT' = 'component',
+  'EVENT' = 'event',
+  'EFFECT' = 'effect',
 }
+
+const TabsName = {
+  [TabsEnum.GLOBAL]: '全局',
+  [TabsEnum.COMPONENT]: '组件',
+  [TabsEnum.EVENT]: '事件',
+  [TabsEnum.EFFECT]: '特效',
+};
 
 const TextInputEditor: React.FC<{
   attrName: string;
@@ -61,66 +69,46 @@ const ComponentAttrsEditor: React.FC<{ schema: InstanceSchema }> = function ({
 
 const GlobalAttrsEditor: React.FC = function () {
   return (
-    <div className="GlobalAttrsEditor h-full overflow-auto">
-      <header className="flex flex-row items-center h-10 bg-gray-50 px-2 ">
-        <img className="inline-block mr-2 w-4 h-4" src={''} />
-        <span className="mr-2">全局设置</span>
-      </header>
-      <main className="overflow-auto p-2">
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-        <h1>Global Editor</h1>
-      </main>
+    <div className="GlobalAttrsEditor h-full p-2 overflow-auto">
+      <h1>Global Editor</h1>
     </div>
   );
 };
 
 const SidebarRight: React.FC = function () {
-  const activatedInstanceSchema = useAppSelector((state) => {
+  const activeInstance = useAppSelector((state) => {
     return state.stage.active !== -1
       ? state.stage.children.find((child) => child.iid === state.stage.active)
       : undefined;
   });
 
+  const [activeKey, setActiveKey] = useState<TabsEnum>(TabsEnum.GLOBAL);
+  const activatedIID = activeInstance?.iid;
+  useEffect(() => {
+    // 当选中一个实例时，默认激活“组件”Tab
+    // 当无实例选中时，默认激活“全局”Tab
+    // 在实例之间切换选择不会切换Tab
+    if (activatedIID !== undefined) {
+      setActiveKey(TabsEnum.COMPONENT);
+    } else {
+      setActiveKey(TabsEnum.GLOBAL);
+    }
+  }, [activatedIID === undefined]);
+
   return (
     <Tabs
       className={`${s.SidebarRight} h-full`}
-      defaultActiveKey={SidebarTabs.GLOBAL}
+      defaultActiveKey={TabsEnum.GLOBAL}
+      activeKey={activeKey}
+      animated={false}
+      onTabClick={(key) => setActiveKey(key as TabsEnum)}
     >
-      <TabPane tab={SidebarTabs.GLOBAL} key={SidebarTabs.GLOBAL}>
+      <TabPane tab={TabsName[TabsEnum.GLOBAL]} key={TabsEnum.GLOBAL}>
         <GlobalAttrsEditor />
       </TabPane>
-      {activatedInstanceSchema !== undefined && (
-        <TabPane tab={SidebarTabs.COMPONENT} key={SidebarTabs.COMPONENT}>
-          <ComponentAttrsEditor schema={activatedInstanceSchema} />;
+      {activeInstance !== undefined && (
+        <TabPane tab={TabsName[TabsEnum.COMPONENT]} key={TabsEnum.COMPONENT}>
+          <ComponentAttrsEditor schema={activeInstance} />
         </TabPane>
       )}
     </Tabs>

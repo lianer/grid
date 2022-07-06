@@ -37,7 +37,7 @@ const HomePage: React.FC = function () {
           <aside className="w-80 h-full border-r">
             <SidebarLeft />
           </aside>
-          <main className="flex-1 h-full bg-gray-50">
+          <main className="flex-1 h-full overflow-hidden bg-gray-50">
             <Stage />
           </main>
           <aside className="w-80 h-full border-l">
