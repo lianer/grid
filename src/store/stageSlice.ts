@@ -6,7 +6,7 @@ import {
   InstanceSchema,
 } from '@/types';
 import { createSlice, Middleware, PayloadAction } from '@reduxjs/toolkit';
-import { merge } from 'lodash-es';
+import { debounce, merge } from 'lodash-es';
 import { RootState } from './store';
 
 interface State {
@@ -165,12 +165,16 @@ export const {
 
 export const selectChildren = (state: RootState) => state.stage.children;
 
+// 本地存储
+const save = debounce((state) => {
+  stageStore.save(state);
+}, 1000);
 export const gridStorage: Middleware = function ({ getState }) {
   return (next) => {
     return (action) => {
       next(action);
       if (action.type.startsWith('stage/')) {
-        stageStore.save(getState().stage);
+        save(getState().stage);
       }
     };
   };
