@@ -75,6 +75,21 @@
    3. AttrsSchema 无法推断，也无需推断
    4. 因此在 Stage 模式下，组件只需要区分是否实例化就可以了，用 ComponentSchema/InstanceSchema 区分
 
+### 事件
+
+1. 物料 Schema 中通过 `event.emits` 定义物料生命中期中会触发的所有事件
+   1. 采用 `{ eventName: eventDescription }` 格式，如 `emits: { click: '点击时', finished: '加载完成后', start: '开始播放时', end: '播放结束后' }`
+   2. 这些 emits 会出现在编辑区的 `事件` Tab 中，可以为这些事件分配具体的动作，比如：跳转页面、通知其他物料、执行动作
+   3. 通过 emits 可以完成一些复杂的动作，比如：
+      1. 给 emits.finished 分配动作 listeners.play，当模块加载完成后开始自动播放
+      2. 给 emits.end 分配动作 listeners.play，当播放结束后重新开始播放
+      3. 给 emits.click 分配弹窗组件动作 listeners.show，当点击按钮后将弹窗组件显示出来
+   4. 物料组件开发过程中，可以通过 `props.emit` 来触发事件
+2. 通过 `event.listeners` 定义物料会监听的事件，比如 update、play、stop 等
+   1. 采用 `{ eventName: eventDescription }` 格式，如：`listeners: { update: '更新中奖列表', play: '播放', stop: '停止' }`
+   2. 舞台中的其他物料，可以通过 `cid + eventName` 来调用该组件的事件
+   3. 物料组件开发过程中，可以通过 `props.on` 来监听事件
+
 ### 升级/向后兼容/向前兼容
 
 1. 针对 Grid 大版本升级的情况，Grid 需要支持多版本
