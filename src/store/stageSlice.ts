@@ -84,18 +84,19 @@ export const slice = createSlice({
       state.active = iid;
     },
 
-    move: (
+    // 在 ControlComponent 中更新 ControlSchema
+    changeControl: (
       state,
-      { payload }: PayloadAction<{ iid: number; x: number; y: number }>,
+      { payload }: PayloadAction<{ iid: number; control: ControlSchema }>,
     ) => {
-      const { iid, x, y } = payload;
-      state.children.find((child) => {
-        if (child.iid === iid) {
-          child.control.left = x;
-          child.control.top = y;
-          return true;
-        }
-      });
+      const { iid, control } = payload;
+      const instance = state.children.find((child) => child.iid === iid);
+      if (instance) {
+        // ControlSchema 与 ControlComponent 绑定，是一对一的关系，在 Redux 中并不关心 ControlSchema 的数据结构
+        instance.control = control;
+      } else {
+        console.error(`[Grid] changeControl: 未找到实例 ${iid}`);
+      }
     },
 
     changeAttrs: (
@@ -109,9 +110,12 @@ export const slice = createSlice({
             if (attrs.hasOwnProperty(key)) {
               merge(attrs, { [key]: value });
             } else {
-              console.error(`changeAttrs: 组件 %o 不存在属性 attrs.${key}`, {
-                ...item,
-              });
+              console.error(
+                `[Grid] changeAttrs: 组件 %o 不存在属性 attrs.${key}`,
+                {
+                  ...item,
+                },
+              );
             }
           }
           return {
@@ -152,7 +156,7 @@ export const {
   resizeStage,
   scaleStage,
   add,
-  move,
+  changeControl,
   changeAttrs,
   active,
   inactive,
