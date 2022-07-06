@@ -10,13 +10,13 @@ const Component: FC<TextSchema> = ({
       style={{
         width: '100%',
         height: '100%',
-        fontSize: `${fontSize.val}px`,
-        fontWeight: fontWeight.val,
-        color: color.val,
-        opacity: opacity.val,
+        fontSize: `${fontSize.value}px`,
+        fontWeight: fontWeight.selected,
+        color: color.value,
+        opacity: opacity.value,
       }}
     >
-      {text.val}
+      {text.value}
     </div>
   );
 };

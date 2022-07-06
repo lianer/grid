@@ -4,7 +4,7 @@ import { BasicControlSchema, DefineSchema } from '@/types';
 type Schema = DefineSchema<
   BasicControlSchema,
   {
-    images: AttrUtils.TextInputList;
+    images: AttrUtils.TextInput;
     opacity: AttrUtils.Slider;
   }
 >;
@@ -25,13 +25,10 @@ const schema: Schema = {
   },
 
   attrs: {
-    images: new AttrUtils.TextInputList({
-      val: [
-        'https://kano.guahao.com/rs1687956125',
-        'https://kano.guahao.com/LSi687820266',
-        'https://kano.guahao.com/soE687561865',
-        'https://kano.guahao.com/1QE687641013',
-      ],
+    images: new AttrUtils.TextInput({
+      value:
+        'https://kano.guahao.com/rs1687956125,https://kano.guahao.com/LSi687820266,https://kano.guahao.com/soE687561865,https://kano.guahao.com/1QE687641013',
+      rows: 10,
     }),
     opacity: new AttrUtils.Slider({}),
   },

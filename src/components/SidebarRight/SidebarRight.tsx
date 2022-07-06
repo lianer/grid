@@ -1,7 +1,8 @@
 import { AttrUtils } from '@/lib/AttrUtils';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { changeAttrs } from '@/store/stageSlice';
 import { InstanceSchema } from '@/types';
-import { Tabs } from 'antd';
+import { Form, Input, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import s from './SidebarRight.less';
 
@@ -22,55 +23,85 @@ const TabsName = {
 };
 
 const TextInputEditor: React.FC<{
-  attrName: string;
-  attrVal: AttrUtils.TextInput;
-}> = function ({ attrName, attrVal }) {
+  attr: AttrUtils.TextInput;
+  update: (attr: any) => void;
+}> = function ({ attr, update }) {
   return (
-    <div>
-      <p>{attrName}</p>
-      <p>{JSON.stringify(attrVal)}</p>
-    </div>
+    <Form.Item label={attr.title}>
+      <Input.TextArea
+        value={attr.value}
+        rows={attr.rows}
+        maxLength={attr.range[1]}
+        onChange={(e) => {
+          update({ ...attr, value: e.target.value });
+        }}
+      />
+    </Form.Item>
   );
 };
 
-const AttrEditorFilter: React.FC<{ attrName: string; attrVal: any }> =
-  function ({ attrName, attrVal }) {
-    switch (attrVal.type) {
+const AttrEditorFilter: React.FC<{ attr: any; update: (attr: any) => void }> =
+  function ({ attr, update }) {
+    switch (attr.type) {
       case AttrUtils.TextInput.name:
-        return <TextInputEditor attrName={attrName} attrVal={attrVal} />;
+        return <TextInputEditor attr={attr} update={update} />;
       default:
         return <div>未知类型</div>;
     }
   };
 
-const ComponentAttrsEditor: React.FC<{ schema: InstanceSchema }> = function ({
-  schema,
-}) {
-  const { iid, base, control, attrs } = schema;
-  return (
-    <div className="ComponentAttrsEditor h-full">
-      <header className="flex flex-row items-center h-10 bg-gray-50 px-2 ">
-        <img className="inline-block mr-2 w-4 h-4" src={base.icon} />
-        <span className="mr-2">{base.name}</span>
-        <span className="text-gray-400 select-text">@{iid}</span>
-      </header>
-      <main className="overflow-auto p-2">
-        {Object.entries(attrs).map(([attrName, attrVal]: [string, any]) => (
-          <AttrEditorFilter
-            key={attrName}
-            attrName={attrName}
-            attrVal={attrVal}
-          />
-        ))}
-      </main>
-    </div>
-  );
-};
-
 const GlobalAttrsEditor: React.FC = function () {
   return (
     <div className="GlobalAttrsEditor h-full p-2 overflow-auto">
       <h1>Global Editor</h1>
+    </div>
+  );
+};
+
+const ComponentAttrsEditor: React.FC<{ instanceSchema: InstanceSchema }> =
+  function ({ instanceSchema }) {
+    const dispatch = useAppDispatch();
+    const { iid, base, control, attrs } = instanceSchema;
+    return (
+      <div className="ComponentAttrsEditor h-full">
+        <header className="flex flex-row items-center h-10 bg-gray-50 px-2 ">
+          <img className="inline-block mr-2 w-4 h-4" src={base.icon} />
+          <span className="mr-2">{base.name}</span>
+          <span className="text-gray-400 select-text">@{iid}</span>
+        </header>
+        <main className="overflow-auto p-2">
+          <Form
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
+            labelAlign="left"
+          >
+            {Object.entries(attrs).map(([name, attr]: [string, any]) => (
+              <AttrEditorFilter
+                key={name}
+                attr={attr}
+                update={(_attr) => {
+                  dispatch(
+                    changeAttrs({
+                      iid,
+                      attrs: {
+                        ...attrs,
+                        [name]: _attr,
+                      },
+                    }),
+                  );
+                }}
+              />
+            ))}
+          </Form>
+        </main>
+      </div>
+    );
+  };
+
+const EventEditor: React.FC = function () {
+  return (
+    <div className="EventEditor h-full">
+      <p className="p-2">Events</p>
     </div>
   );
 };
@@ -108,9 +139,12 @@ const SidebarRight: React.FC = function () {
       </TabPane>
       {activeInstance !== undefined && (
         <TabPane tab={TabsName[TabsEnum.COMPONENT]} key={TabsEnum.COMPONENT}>
-          <ComponentAttrsEditor schema={activeInstance} />
+          <ComponentAttrsEditor instanceSchema={activeInstance} />
         </TabPane>
       )}
+      <TabPane tab={TabsName[TabsEnum.EVENT]} key={TabsEnum.EVENT}>
+        <EventEditor />
+      </TabPane>
     </Tabs>
   );
 };

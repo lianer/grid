@@ -8,15 +8,15 @@ const Component: FC<ImageSchema> = ({
 }) => {
   return (
     <img
-      src={src.val}
+      src={src.value}
       style={{
         width: '100%',
-        opacity: opacity.val,
+        opacity: opacity.value,
       }}
       onError={(e) => {
         if (stage && onCompUpdate) {
           onCompUpdate({
-            src: { val: 'https://kano.guahao.com/1QE687641013' },
+            src: { value: 'https://kano.guahao.com/1QE687641013' },
           });
         }
       }}

@@ -24,7 +24,7 @@ const schema: ImageSchema = {
   },
 
   attrs: {
-    src: new Attrs.TextInput({ val: '' }),
+    src: new Attrs.TextInput({ value: '' }),
     opacity: new Attrs.Slider({}),
   },
 };

@@ -2,10 +2,10 @@ import { Carousel } from 'antd';
 import { FC } from 'react';
 import { Schema } from './schema';
 
-const Component: FC<Schema> = function ({ attrs: { opacity, images } }) {
+const Component: FC<Schema> = function ({ attrs: { images, opacity } }) {
   return (
-    <Carousel autoplay style={{ width: '100%', opacity: opacity.val }}>
-      {images.val.map((img) => (
+    <Carousel autoplay style={{ width: '100%', opacity: opacity.value }}>
+      {images.value.split(',').map((img) => (
         <img key={img} src={img} />
       ))}
     </Carousel>
