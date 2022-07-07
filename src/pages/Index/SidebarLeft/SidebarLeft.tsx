@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { selectMaterial, updateList } from '@/store/materialSlice';
+import { selectMaterial, updateListAsync } from '@/store/materialSlice';
 import { add } from '@/store/stageSlice';
 import { ComponentCategory, ComponentSchema } from '@/types';
 import { List, Tabs } from 'antd';
@@ -57,7 +57,7 @@ const SidebarLeft: FC = function () {
 
   // tab 切换的时候，将列表切换为对应类型的组件
   useEffect(() => {
-    dispatch(updateList({ category }));
+    dispatch(updateListAsync({ payload: { category } }));
   }, [category]);
 
   return (
