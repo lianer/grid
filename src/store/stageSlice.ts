@@ -29,7 +29,7 @@ const center = (
     case 'BasicControlSchema':
       return {
         ...control,
-        left: (stageSize.width - control.width) / 2,
+        left: (stageSize.width - (control.width ?? 100)) / 2,
         top: (stageSize.height - (control.height ?? 100)) / 2,
       };
     default:
