@@ -19,13 +19,14 @@ const BasicControl: FC<
     ...control,
   });
 
+  const autoWidth = localControl.width === undefined;
   const autoHeight = localControl.height === undefined;
   const resizeOptions = {
     top: !autoHeight,
     topLeft: !autoHeight,
     topRight: !autoHeight,
-    left: true,
-    right: true,
+    left: !autoWidth,
+    right: !autoWidth,
     bottom: !autoHeight,
     bottomLeft: !autoHeight,
     bottomRight: !autoHeight,
@@ -63,7 +64,7 @@ const BasicControl: FC<
         const { width, height } = ref.getBoundingClientRect();
         setLocalControl({
           ...control,
-          width,
+          width: autoWidth ? undefined : width,
           height: autoHeight ? undefined : height,
         });
       }}
@@ -72,7 +73,7 @@ const BasicControl: FC<
       <div
         className={`BasicControl ${s.BasicControl} ${isActive ? s.Active : ''}`}
         style={{
-          width: `${localControl.width}px`,
+          width: autoWidth ? undefined : `${localControl.width}px`,
           height: autoHeight ? undefined : `${localControl.height}px`,
         }}
       >
