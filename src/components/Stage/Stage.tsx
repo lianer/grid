@@ -1,5 +1,5 @@
 import Control from '@/controls/Control/Control';
-import { loadById } from '@/loader';
+import { loadById } from '@/lib/loader';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { changeAttrs, inactive, selectChildren } from '@/store/stageSlice';
 import { AttrsSchema, InstanceSchema } from '@/types';

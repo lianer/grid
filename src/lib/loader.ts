@@ -1,14 +1,14 @@
-import carousel from '@/materials/carousel';
-import image from '@/materials/image';
-import text from '@/materials/text';
+import carousel from '@/_materials/carousel';
+import image from '@/_materials/image';
+import text from '@/_materials/text';
 import { ComponentType, lazy, LazyExoticComponent } from 'react';
 
 const components = {
   // 1: text.Component,
   // 2: image.Component,
-  1: lazy(() => import('@/materials/text/Component')),
-  2: lazy(() => import('@/materials/image/Component')),
-  3: lazy(() => import('@/materials/carousel/Component')),
+  1: lazy(() => import('@/_materials/text/Component')),
+  2: lazy(() => import('@/_materials/image/Component')),
+  3: lazy(() => import('@/_materials/carousel/Component')),
 };
 const schemaList = [text.schema, image.schema, carousel.schema];
 

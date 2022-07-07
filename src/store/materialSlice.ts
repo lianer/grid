@@ -1,4 +1,4 @@
-import { getBasicList, getChartList, getMapList } from '@/loader';
+import { getBasicList, getChartList, getMapList } from '@/lib/loader';
 import { ComponentCategory, ComponentSchema } from '@/types';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
