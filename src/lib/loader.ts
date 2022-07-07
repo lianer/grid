@@ -1,12 +1,18 @@
 import { ComponentCategory, ComponentSchema } from '@/types';
 import { ComponentType, lazy, LazyExoticComponent } from 'react';
 
-const materials: any[] = [
-  () => import('@/_materials/text/schema'),
-  () => import('@/_materials/image/schema'),
-  () => import('@/_materials/carousel/schema'),
-  () => import('@/_materials/button/schema'),
-];
+const materials: {
+  [K in ComponentCategory]: any[];
+} = {
+  basic: [
+    () => import('@/_materials/text/schema'),
+    () => import('@/_materials/image/schema'),
+    () => import('@/_materials/carousel/schema'),
+    () => import('@/_materials/button/schema'),
+  ],
+  chart: [],
+  map: [],
+};
 
 const components: Record<number, any> = {
   1: lazy(() => import('@/_materials/text/Component')),
@@ -16,7 +22,7 @@ const components: Record<number, any> = {
 };
 
 export const getMaterialList = async (category: ComponentCategory) => {
-  const modules = await Promise.all(materials.map((load) => load()));
+  const modules = await Promise.all(materials[category].map((load) => load()));
   const cids = new Set<number>();
   const schemaList: ComponentSchema[] = [];
 
