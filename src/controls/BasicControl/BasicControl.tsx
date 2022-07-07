@@ -17,9 +17,8 @@ const BasicControl: FC<
   const [localControl, setLocalControl] = useState<BasicControlSchema>({
     ...control,
   });
-  const { width, height, left, top } = localControl;
 
-  const autoHeight = height === undefined;
+  const autoHeight = localControl.height === undefined;
   const resizeOptions = {
     top: !autoHeight,
     topLeft: !autoHeight,
@@ -37,7 +36,7 @@ const BasicControl: FC<
       changeControl({
         iid,
         control: {
-          ...control,
+          ...localControl,
         },
       }),
     );
@@ -48,8 +47,8 @@ const BasicControl: FC<
       disableDragging={!isActive}
       enableResizing={isActive ? resizeOptions : false}
       position={{
-        x: left,
-        y: top,
+        x: localControl.left,
+        y: localControl.top,
       }}
       onDrag={(e, d) => {
         setLocalControl({
@@ -72,8 +71,8 @@ const BasicControl: FC<
       <div
         className="BasicControl"
         style={{
-          width: `${width}px`,
-          height: autoHeight ? undefined : `${height}px`,
+          width: `${localControl.width}px`,
+          height: autoHeight ? undefined : `${localControl.height}px`,
           outline: isActive ? '2px dashed #45a6ff' : 'none',
         }}
       >

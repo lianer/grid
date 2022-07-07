@@ -10,8 +10,9 @@ export const store = configureStore({
   },
 
   // https://redux-toolkit.js.org/api/getDefaultMiddleware#intended-usage
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(logger, gridStorage),
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(logger, gridStorage);
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;

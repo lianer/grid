@@ -51,6 +51,7 @@ export const slice = createSlice({
   name: 'stage',
   initialState,
   reducers: {
+    // 移动 Stage 的位置（相对于 Room 的位置）
     moveStage: (
       state,
       { payload }: PayloadAction<{ left: number; top: number }>,
@@ -59,6 +60,9 @@ export const slice = createSlice({
       state.top = payload.top ?? state.top;
     },
 
+    // 舞台尺寸调整
+    // width 一般建议为 100 的倍数，如：3200,2800,2400,2000,1800,1600,1400,1200,1000,800,600,400
+    // height 一般建议为 10 的倍数
     resizeStage: (
       state,
       { payload }: PayloadAction<{ width: number; height: number }>,
@@ -67,10 +71,12 @@ export const slice = createSlice({
       state.height = payload.height ?? state.height;
     },
 
+    // 舞台缩放
     scaleStage: (state, { payload }: PayloadAction<{ scale: number }>) => {
       state.scale = payload.scale;
     },
 
+    // 实例化一个物料
     add: (state, { payload }: PayloadAction<{ schema: ComponentSchema }>) => {
       // 从侧边栏添加到舞台，添加 iid 属性，从 ComponentSchema 转变为 InstanceSchema
       const iid = Date.now();
@@ -84,31 +90,33 @@ export const slice = createSlice({
       state.active = iid;
     },
 
-    // 在 ControlComponent 中更新 ControlSchema
+    // 在 ControlComponent 中通过 changeContorl 更新 ControlSchema
     changeControl: (
       state,
       { payload }: PayloadAction<{ iid: number; control: ControlSchema }>,
     ) => {
-      const { iid, control } = payload;
-      const instance = state.children.find((child) => child.iid === iid);
+      const instance = state.children.find(
+        (child) => child.iid === payload.iid,
+      );
       if (instance) {
         // ControlSchema 与 ControlComponent 绑定，是一对一的关系，在 Redux 中并不关心 ControlSchema 的数据结构
-        instance.control = control;
+        instance.control = { ...payload.control };
       } else {
-        console.error(`[Grid] changeControl: 未找到实例 ${iid}`);
+        console.error(`[Grid] changeControl: 未找到实例 ${payload.iid}`);
       }
     },
 
+    // 在 AttrEditor 中通过 changeAttrs 更新 AttrsSchema
     changeAttrs: (
       state,
       { payload }: PayloadAction<{ iid: number; attrs: AttrsSchema }>,
     ) => {
       state.children = state.children.map((item) => {
         if (item.iid === payload.iid) {
-          const attrs = { ...item.attrs };
+          const oldAttrs = { ...item.attrs };
           for (let [key, value] of Object.entries(payload.attrs)) {
-            if (attrs.hasOwnProperty(key)) {
-              merge(attrs, { [key]: value });
+            if (oldAttrs.hasOwnProperty(key)) {
+              merge(oldAttrs, { [key]: value });
             } else {
               console.error(
                 `[Grid] changeAttrs: 组件 %o 不存在属性 attrs.${key}`,
@@ -120,21 +128,24 @@ export const slice = createSlice({
           }
           return {
             ...item,
-            attrs,
+            attrs: oldAttrs,
           };
         }
         return item;
       });
     },
 
+    // 选中一个实例
     active: (state, { payload }: PayloadAction<{ iid: number }>) => {
       state.active = payload.iid;
     },
 
+    // 取消选中实例
     inactive: (state) => {
       state.active = null;
     },
 
+    // 将实例的顺序上移
     moveUp: (state, { payload }: PayloadAction<{ iid: number }>) => {
       const children = [...state.children];
       const index = children.findIndex((item) => item.iid === payload.iid)!;
@@ -165,16 +176,16 @@ export const {
 
 export const selectChildren = (state: RootState) => state.stage.children;
 
-// 本地存储
-const save = debounce((state) => {
-  stageStore.save(state);
-}, 1000);
+// 本地存储 Redux Middleware
 export const gridStorage: Middleware = function ({ getState }) {
+  const delay = 300;
+  const save = debounce((state) => stageStore.save(state), delay);
   return (next) => {
     return (action) => {
       next(action);
       if (action.type.startsWith('stage/')) {
-        save(getState().stage);
+        const state = getState().stage;
+        save(state);
       }
     };
   };
