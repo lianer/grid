@@ -34,7 +34,7 @@ const schema: TextSchema = {
       rows: 4,
       range: [0, 10000],
     }),
-    fontSize: new AttrUtils.NumberInput({ value: 14 }),
+    fontSize: new AttrUtils.NumberInput({ title: '字号', value: 14 }),
     fontWeight: new AttrUtils.Selector({
       title: '字粗',
       selected: 'normal',

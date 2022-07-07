@@ -16,22 +16,20 @@ type ComponentSchema = DefineSchema<
 // TODO: 重新设计 attrs，改用数组
 const schema: ComponentSchema = {
   base: {
-    cid: 1,
-    name: '文本',
-    icon: 'https://lianer-design-hd1.oss-cn-hangzhou.aliyuncs.com/projects/grid/text.svg',
+    cid: 4,
+    name: '按钮',
+    icon: 'https://lianer-design-hd1.oss-cn-hangzhou.aliyuncs.com/projects/grid/button.svg',
     category: 'basic',
   },
 
   control: {
     type: 'BasicControlSchema',
-    width: 200,
-    height: 64,
     left: 0,
     top: 0,
   },
 
   attrs: {
-    text: new AttrUtils.TextInput({}),
+    text: new AttrUtils.TextInput({ value: '按钮' }),
     size: new AttrUtils.Selector({
       title: '大小',
       selected: 'middle',

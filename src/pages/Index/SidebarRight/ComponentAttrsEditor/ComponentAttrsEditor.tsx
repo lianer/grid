@@ -3,6 +3,7 @@ import { useAppDispatch } from '@/store/hooks';
 import { changeAttrs } from '@/store/stageSlice';
 import { InstanceSchema } from '@/types';
 import { Form } from 'antd';
+import NumberInputEditor from './NumberInputEditor/NumberInputEditor';
 import TextInputEditor from './TextInputEditor/TextInputEditor';
 
 const AttrEditorFilter: React.FC<{ attr: any; update: (attr: any) => void }> =
@@ -10,6 +11,8 @@ const AttrEditorFilter: React.FC<{ attr: any; update: (attr: any) => void }> =
     switch (attr.type) {
       case AttrUtils.TextInput.name:
         return <TextInputEditor attr={attr} update={update} />;
+      case AttrUtils.NumberInput.name:
+        return <NumberInputEditor attr={attr} update={update} />;
       default:
         return <div>未知属性</div>;
     }
@@ -29,9 +32,10 @@ const ComponentAttrsEditor: React.FC<{ instanceSchema: InstanceSchema }> =
         </header>
         <main className="overflow-auto p-2">
           <Form
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 18 }}
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 20 }}
             labelAlign="left"
+            colon={false}
           >
             {Object.entries(attrs).map(([name, attr]: [string, any]) => (
               <AttrEditorFilter
