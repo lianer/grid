@@ -7,14 +7,25 @@ const TextInputEditor: React.FC<{
 }> = function ({ attr, update }) {
   return (
     <Form.Item label={attr.title}>
-      <Input.TextArea
-        value={attr.value}
-        rows={attr.rows}
-        maxLength={attr.range[1]}
-        onChange={(e) => {
-          update({ ...attr, value: e.target.value });
-        }}
-      />
+      {attr.rows > 1 && (
+        <Input.TextArea
+          value={attr.value}
+          rows={attr.rows}
+          maxLength={attr.range[1]}
+          onChange={(e) => {
+            update({ ...attr, value: e.target.value });
+          }}
+        />
+      )}
+      {attr.rows <= 1 && (
+        <Input
+          value={attr.value}
+          maxLength={attr.range[1]}
+          onChange={(e) => {
+            update({ ...attr, value: e.target.value });
+          }}
+        />
+      )}
     </Form.Item>
   );
 };
