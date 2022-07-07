@@ -1,7 +1,7 @@
-import SidebarLeft from '@/components/SidebarLeft';
-import Sidebarright from '@/components/Sidebarright';
-import Stage from '@/components/Stage';
 import { Link } from 'umi';
+import SidebarLeft from './SidebarLeft';
+import SidebarRight from './SidebarRight';
+import Stage from './Stage';
 
 const MenuBar: React.FC = function () {
   return (
@@ -41,7 +41,7 @@ const HomePage: React.FC = function () {
             <Stage />
           </main>
           <aside className="w-80 h-full border-l">
-            <Sidebarright />
+            <SidebarRight />
           </aside>
         </main>
       </main>

@@ -1,10 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { updateList } from '@/store/materialSlice';
+import { selectMaterial, updateList } from '@/store/materialSlice';
 import { add } from '@/store/stageSlice';
 import { ComponentCategory, ComponentSchema } from '@/types';
 import { List, Tabs } from 'antd';
 import { FC, useEffect, useState } from 'react';
-import { selectMaterial } from '../../store/materialSlice';
 import s from './SidebarLeft.less';
 
 const tabs: Record<ComponentCategory, string> = {

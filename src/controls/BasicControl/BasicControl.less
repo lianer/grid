@@ -1,5 +1,10 @@
 .BasicControl {
-  position: relative;
-  display: block;
-  border: 1px solid #000;
+  &:hover {
+    opacity: 1;
+    outline: 1px dashed #b6b6b6;
+  }
+
+  &.Active {
+    outline: 2px dashed #45a6ff;
+  }
 }

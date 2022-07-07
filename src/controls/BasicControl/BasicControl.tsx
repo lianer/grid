@@ -3,6 +3,7 @@ import { changeControl } from '@/store/stageSlice';
 import { BasicControlSchema } from '@/types';
 import { FC, PropsWithChildren, useState } from 'react';
 import { Rnd } from 'react-rnd';
+import s from './BasicControl.less';
 
 const BasicControl: FC<
   PropsWithChildren<{
@@ -69,11 +70,10 @@ const BasicControl: FC<
       onResizeStop={dispatchChangeControl}
     >
       <div
-        className="BasicControl"
+        className={`BasicControl ${s.BasicControl} ${isActive ? s.Active : ''}`}
         style={{
           width: `${localControl.width}px`,
           height: autoHeight ? undefined : `${localControl.height}px`,
-          outline: isActive ? '2px dashed #45a6ff' : 'none',
         }}
       >
         <div className="BasicControlContainer">{children}</div>
