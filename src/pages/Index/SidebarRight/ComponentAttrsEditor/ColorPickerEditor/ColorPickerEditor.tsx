@@ -32,6 +32,25 @@ const ColorPickerEditor: React.FC<{
 }> = function ({ attr, update }) {
   const recentlyColors = colorStorage.read() ?? [];
 
+  // 最近使用的颜色
+  const Recently = (
+    <div className="Recently flex flex-row items-center h-6 px-1 rounded-bl-lg rounded-br-lg overflow-hidden">
+      <HistoryOutlined className="ml-1 mr-1" />
+      {recentlyColors.map((color: string) => (
+        <div
+          key={color}
+          className="ColorButton block w-4 h-4 mr-px last:mr-0 border border-gray-200 hover:border-gray-900 cursor-pointer"
+          style={{ backgroundColor: color }}
+          onClick={() => {
+            updateRecentlyColors(color);
+            update({ ...attr, value: color });
+          }}
+        ></div>
+      ))}
+    </div>
+  );
+
+  // 弹窗内容
   const PopoverContent = (
     <>
       <HexColorPicker
@@ -41,20 +60,7 @@ const ColorPickerEditor: React.FC<{
           update({ ...attr, value });
         }}
       />
-      <div className="Recently flex flex-row items-center h-6 px-1 rounded-bl-lg rounded-br-lg overflow-hidden">
-        <HistoryOutlined className="mr-1" />
-        {recentlyColors.map((color: string) => (
-          <div
-            key={color}
-            className="Color block w-4 h-4 border cursor-pointer"
-            style={{ backgroundColor: color }}
-            onClick={() => {
-              updateRecentlyColors(color);
-              update({ ...attr, value: color });
-            }}
-          ></div>
-        ))}
-      </div>
+      {Recently}
     </>
   );
 
@@ -62,10 +68,11 @@ const ColorPickerEditor: React.FC<{
     <Form.Item label={attr.title}>
       <div className="Container flex flex-row items-center">
         <Popover
-          overlayClassName={`${s.ColorPickerEditorPopover} tw`}
+          overlayClassName={s.ColorPickerEditorPopover}
           placement="bottom"
           trigger="click"
           content={PopoverContent}
+          getPopupContainer={() => document.querySelector('#root')!}
         >
           <div
             className="ColorPicker w-6 h-6 mr-8 border rounded-md cursor-pointer"
