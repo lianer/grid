@@ -17,7 +17,7 @@ const MenuBar: React.FC = function () {
 const ActionBar: React.FC = function () {
   return (
     <div
-      className="flex flex-row items-center h-16 px-4 text-2xl border-b bg-white rounded-t-xl"
+      className="flex flex-row items-center h-16 px-4 overflow-hidden text-2xl border-b bg-white rounded-t-xl"
       style={{ boxShadow: '0 -3px 3px rgba(0, 0, 0, 0.03)' }}
     >
       <h1>Grid</h1>
@@ -29,7 +29,7 @@ const HomePage: React.FC = function () {
   return (
     <>
       <main className="flex flex-col w-screen h-screen select-none">
-        <header className="w-full h-24" style={{ backgroundColor: '#dbfcd7' }}>
+        <header className="w-full" style={{ backgroundColor: '#dbfcd7' }}>
           <MenuBar />
           <ActionBar />
         </header>
