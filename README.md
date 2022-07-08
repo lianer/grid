@@ -75,6 +75,12 @@
    3. AttrsSchema 无法推断，也无需推断
    4. 因此在 Stage 模式下，组件只需要区分是否实例化就可以了，用 ComponentSchema/InstanceSchema 区分
 
+### AttrUtils
+
+1. 通过 `AttrUtils` 定义组件的可编辑属性
+2. 其中 `AttrUtils` 自身的 Schema 类在 `Grid` 中定义，如果需要扩展 `AttrUtils` 则需要在 `Grid` 中扩展
+3. `AttrUtils` 中的类的参数定义尽可能参照 `Antd` 中对应组件的参数定义，比如 `SelectorEditor` 尽可能参照 `Antd` `Select` 组件，`TextInputEditor` 尽可能参照 `Antd` `Input` 组件，使用 maxLength 描述字符长度，使用 max 描述最大数值
+
 ### 事件
 
 1. 物料 Schema 中通过 `event.emits` 定义物料生命中期中会触发的所有事件
