@@ -28,7 +28,7 @@ const ActionBar: React.FC = function () {
 const HomePage: React.FC = function () {
   return (
     <>
-      <main className="flex flex-col w-screen h-screen select-none">
+      <main className="tw flex flex-col w-screen h-screen select-none">
         <header className="w-full h-24" style={{ backgroundColor: '#dbfcd7' }}>
           <MenuBar />
           <ActionBar />

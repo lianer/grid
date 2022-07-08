@@ -1,5 +1,5 @@
 module.exports = {
-  important: '#root',
+  important: '.tw',
   content: [
     // './src/pages/**/*.tsx',
     // './src/components/**.tsx',

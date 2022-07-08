@@ -3,6 +3,7 @@ import { useAppDispatch } from '@/store/hooks';
 import { changeAttrs } from '@/store/stageSlice';
 import { InstanceSchema } from '@/types';
 import { Form } from 'antd';
+import ColorPickerEditor from './ColorPickerEditor/ColorPickerEditor';
 import NumberInputEditor from './NumberInputEditor/NumberInputEditor';
 import SelectorEditor from './SelectorEditor/SelectorEditor';
 import TextInputEditor from './TextInputEditor/TextInputEditor';
@@ -16,6 +17,8 @@ const AttrEditorFilter: React.FC<{ attr: any; update: (attr: any) => void }> =
         return <NumberInputEditor attr={attr} update={update} />;
       case AttrUtils.Selector.name:
         return <SelectorEditor attr={attr} update={update} />;
+      case AttrUtils.ColorPicker.name:
+        return <ColorPickerEditor attr={attr} update={update} />;
       default:
         return <div>未知属性</div>;
     }

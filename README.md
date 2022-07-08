@@ -115,3 +115,4 @@
 - lodash-es
 - react-dnd - drag and drop
 - react-rnd - movable and resizable <https://github.com/bokuweb/react-rnd>
+- react-colorful - color picker <https://github.com/omgovich/react-colorful>
