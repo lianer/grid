@@ -1,11 +1,13 @@
 import AttrUtils from '@/lib/AttrUtils';
-import Store from '@/lib/Store';
+import StorageUtil from '@/lib/StorageUtil';
 import { HistoryOutlined } from '@ant-design/icons';
 import { Form, Popover } from 'antd';
 import { HexColorPicker } from 'react-colorful';
 import s from './ColorPickerEditor.less';
 
-const colorStorage = new Store({ key: 'ColorPickerEditor.recentlyColors' });
+const colorStorage = new StorageUtil({
+  key: 'ColorPickerEditor.recentlyColors',
+});
 const maxRecentlyColors = 10;
 
 // 更新本地存储，记录最近使用的颜色值

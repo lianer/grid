@@ -1,4 +1,4 @@
-import Store from '@/lib/Store';
+import StorageUtil from '@/lib/StorageUtil';
 import {
   AttrsSchema,
   ComponentSchema,
@@ -19,7 +19,7 @@ interface State {
   children: InstanceSchema[]; // 舞台中已经添加的组件
 }
 
-const stageStore = new Store({ disable: false, key: 'state.stage' });
+const stageStorage = new StorageUtil({ disable: false, key: 'state.stage' });
 
 const center = (
   stageSize: { width: number; height: number },
@@ -37,7 +37,7 @@ const center = (
   }
 };
 
-const initialState: State = stageStore.read() || {
+const initialState: State = stageStorage.read() || {
   width: 1200,
   height: 600,
   left: 0,
@@ -179,7 +179,7 @@ export const selectChildren = (state: RootState) => state.stage.children;
 // 本地存储 Redux Middleware
 export const gridStorage: Middleware = function ({ getState }) {
   const delay = 300;
-  const save = debounce((state) => stageStore.save(state), delay);
+  const save = debounce((state) => stageStorage.save(state), delay);
   return (next) => {
     return (action) => {
       next(action);
