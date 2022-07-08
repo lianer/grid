@@ -12,6 +12,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import s from './Stage.less';
 
 // TODO: 增强 props 参数错误/缺少等异常情况的处理
 // TODO: 层级控制，分背景层 layer.background、普通层 layer.normal、浮动层 layer.float、弹窗层 layer.popup
@@ -67,7 +68,7 @@ const Stage: FC = function () {
   return (
     <div className="Room h-full overflow-auto p-16" onClick={onStageClick}>
       <div
-        className="Stage relative h-full bg-white"
+        className={`${s.Stage} relative h-full bg-white`}
         style={{
           width,
           height,
