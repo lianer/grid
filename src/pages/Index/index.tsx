@@ -20,7 +20,7 @@ const ActionBar: React.FC = function () {
       className="flex flex-row items-center h-16 px-4 overflow-hidden text-2xl border-b bg-white rounded-t-xl"
       style={{ boxShadow: '0 -3px 3px rgba(0, 0, 0, 0.03)' }}
     >
-      <h1>Grid</h1>
+      <h1 className="GridTitle mb-0">Grid</h1>
     </div>
   );
 };

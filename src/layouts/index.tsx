@@ -1,4 +1,6 @@
+// organize-imports-ignore
 import '@/styles/append-antd.less';
+import '@/styles/override-antd.less';
 import { Provider } from 'react-redux';
 
 import { Outlet } from 'umi';
