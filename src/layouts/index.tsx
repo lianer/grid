@@ -1,6 +1,6 @@
-import 'antd/dist/antd.css';
+import '@/styles/append-antd.less';
 import { Provider } from 'react-redux';
-import 'tailwindcss/tailwind.css';
+
 import { Outlet } from 'umi';
 import { store } from '../store/store';
 
