@@ -6,6 +6,7 @@ import { Form } from 'antd';
 import ColorPickerEditor from './ColorPickerEditor/ColorPickerEditor';
 import NumberInputEditor from './NumberInputEditor/NumberInputEditor';
 import SelectorEditor from './SelectorEditor/SelectorEditor';
+import SliderEditor from './SliderEditor/SliderEditor';
 import TextInputEditor from './TextInputEditor/TextInputEditor';
 
 const AttrEditorFilter: React.FC<{ attr: any; update: (attr: any) => void }> =
@@ -19,6 +20,8 @@ const AttrEditorFilter: React.FC<{ attr: any; update: (attr: any) => void }> =
         return <SelectorEditor attr={attr} update={update} />;
       case AttrUtils.ColorPicker.name:
         return <ColorPickerEditor attr={attr} update={update} />;
+      case AttrUtils.Slider.name:
+        return <SliderEditor attr={attr} update={update} />;
       default:
         return <div>未知属性</div>;
     }
