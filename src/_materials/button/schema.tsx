@@ -53,27 +53,27 @@ const schema: ComponentSchema = {
       value: 'default',
       options: [
         {
-          label: 'primary',
+          label: '重要',
           value: 'primary',
         },
         {
-          label: 'ghost',
+          label: '幽灵',
           value: 'ghost',
         },
         {
-          label: 'dashed',
+          label: '虚线',
           value: 'dashed',
         },
         {
-          label: 'link',
+          label: '链接',
           value: 'link',
         },
         {
-          label: 'text',
+          label: '文本',
           value: 'text',
         },
         {
-          label: 'default',
+          label: '默认',
           value: 'default',
         },
       ],
