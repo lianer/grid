@@ -10,10 +10,8 @@ const SelectorEditor: React.FC<{
   return (
     <Form.Item label={attr.title}>
       <Select
-        value={attr.selected}
-        onChange={(value: string | number) =>
-          update({ ...attr, selected: value })
-        }
+        value={attr.value}
+        onChange={(value: string | number) => update({ ...attr, value })}
       >
         {attr.options.map((option) => (
           <Option key={option.value} value={option.value}>

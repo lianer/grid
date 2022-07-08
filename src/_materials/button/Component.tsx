@@ -7,7 +7,7 @@ const Component: FC<ComponentSchema> = ({
   attrs: { text, size, type },
 }) => {
   return (
-    <Button type={type.selected} size={size.selected}>
+    <Button type={type.value} size={size.value}>
       {text.value}
     </Button>
   );

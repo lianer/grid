@@ -9,8 +9,8 @@ const NumberInputEditor: React.FC<{
     <Form.Item label={attr.title}>
       <InputNumber
         value={attr.value}
-        min={attr.range[0]}
-        max={attr.range[1]}
+        min={attr.min}
+        max={attr.max}
         onChange={(value: number) => {
           console.log(value);
           update({ ...attr, value: value });

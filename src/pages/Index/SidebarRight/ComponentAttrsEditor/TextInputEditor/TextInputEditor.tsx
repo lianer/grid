@@ -11,7 +11,7 @@ const TextInputEditor: React.FC<{
         <Input.TextArea
           value={attr.value}
           rows={attr.rows}
-          maxLength={attr.range[1]}
+          maxLength={attr.maxLength}
           onChange={(e) => {
             update({ ...attr, value: e.target.value });
           }}
@@ -20,7 +20,7 @@ const TextInputEditor: React.FC<{
       {attr.rows <= 1 && (
         <Input
           value={attr.value}
-          maxLength={attr.range[1]}
+          maxLength={attr.maxLength}
           onChange={(e) => {
             update({ ...attr, value: e.target.value });
           }}

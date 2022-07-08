@@ -32,12 +32,12 @@ const schema: TextSchema = {
     text: new AttrUtils.TextInput({
       value: '文本',
       rows: 4,
-      range: [0, 10000],
+      maxLength: 10000,
     }),
     fontSize: new AttrUtils.NumberInput({ title: '字号', value: 14 }),
     fontWeight: new AttrUtils.Selector({
       title: '字粗',
-      selected: 'normal',
+      value: 'normal',
       options: [
         {
           label: '常规',
@@ -50,7 +50,7 @@ const schema: TextSchema = {
       ],
     }),
     color: new AttrUtils.ColorPicker({ value: '#333' }),
-    opacity: new AttrUtils.Slider({}),
+    opacity: new AttrUtils.Slider({ title: '透明' }),
   },
 };
 

@@ -11,9 +11,9 @@ const Component: FC<TextSchema> = ({
         width: '100%',
         height: '100%',
         fontSize: `${fontSize.value}px`,
-        fontWeight: fontWeight.selected,
+        fontWeight: fontWeight.value,
         color: color.value,
-        opacity: opacity.value,
+        opacity: opacity.value / 100,
       }}
     >
       {text.value}

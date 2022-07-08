@@ -32,7 +32,7 @@ const schema: ComponentSchema = {
     text: new AttrUtils.TextInput({ value: '按钮' }),
     size: new AttrUtils.Selector({
       title: '大小',
-      selected: 'middle',
+      value: 'middle',
       options: [
         {
           label: '大',
@@ -50,7 +50,7 @@ const schema: ComponentSchema = {
     }),
     type: new AttrUtils.Selector({
       title: '类型',
-      selected: 'default',
+      value: 'default',
       options: [
         {
           label: 'primary',

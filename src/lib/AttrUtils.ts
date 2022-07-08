@@ -28,12 +28,12 @@ export namespace AttrUtils {
     type = TextInput.name;
     title: string;
     value: string;
-    range: [number, number];
+    maxLength: number;
     rows: number;
     constructor(attrs: Partial<TextInput>) {
       this.title = attrs.title ?? '内容';
       this.value = attrs.value ?? '文本';
-      this.range = attrs.range ?? [0, 10000];
+      this.maxLength = attrs.maxLength ?? 10000;
       this.rows = attrs.rows ?? 1;
     }
   }
@@ -43,11 +43,13 @@ export namespace AttrUtils {
     type = NumberInput.name;
     title: string;
     value: number;
-    range: [number, number];
+    min: number;
+    max: number;
     constructor(attrs: Partial<NumberInput>) {
       this.title = attrs.title ?? '数字';
       this.value = attrs.value ?? 100;
-      this.range = attrs.range ?? [0, 10000];
+      this.min = attrs.min ?? 0;
+      this.max = attrs.max ?? 10000;
     }
   }
 
@@ -55,27 +57,25 @@ export namespace AttrUtils {
   export class Selector<V, L> {
     type = Selector.name;
     title: string;
-    selected: V;
+    value: V;
     options: { label: L; value: V }[];
     constructor(attrs: {
       title?: string;
-      selected: V;
+      value: V;
       options: { label: L; value: V }[];
     }) {
       this.title = attrs.title ?? '选择';
       this.options = attrs.options;
-      this.selected = attrs.selected;
+      this.value = attrs.value;
       if (isEmpty(this.options)) {
         throw new Error('[Grid] AttrUtils.Selector: options 不能为空');
       }
-      if (isUndefined(this.selected)) {
-        throw new Error('[Grid] AttrUtils.Selector: selected 不能为空');
+      if (isUndefined(this.value)) {
+        throw new Error('[Grid] AttrUtils.Selector: value 不能为空');
       }
-      if (
-        !~this.options.findIndex((option) => option.value === this.selected)
-      ) {
+      if (!~this.options.findIndex((option) => option.value === this.value)) {
         throw new Error(
-          `[Grid] AttrUtils.Selector: selected ${this.selected} 必须是 options ${this.options} 的其中一员`,
+          `[Grid] AttrUtils.Selector: value ${this.value} 必须是 options ${this.options} 的其中一员`,
         );
       }
     }
@@ -95,12 +95,16 @@ export namespace AttrUtils {
   // 滑块
   export class Slider {
     type = Slider.name;
+    title: string;
     value: number;
-    range: [number, number];
+    min: number;
+    max: number;
     step: number;
     constructor(attrs: Partial<Slider>) {
+      this.title = attrs.title ?? '选择';
       this.value = attrs.value ?? 100;
-      this.range = attrs.range ?? [0, 100];
+      this.min = attrs.min ?? 0;
+      this.max = attrs.max ?? 100;
       this.step = attrs.step ?? 1;
     }
   }
