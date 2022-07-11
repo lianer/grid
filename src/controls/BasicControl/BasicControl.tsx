@@ -1,6 +1,7 @@
 import { useAppDispatch } from '@/store/hooks';
 import { changeControl } from '@/store/stageSlice';
 import { BasicControlSchema } from '@/types';
+import { isEqual } from 'lodash-es';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import s from './BasicControl.less';
@@ -39,6 +40,7 @@ const BasicControl: FC<
 
   // 当 move、resize 结束后，一次性提交最新的 state，更新到 schema 中
   const dispatchChangeControl = () => {
+    if (isEqual(control, localControl)) return;
     dispatch(
       changeControl({
         iid,

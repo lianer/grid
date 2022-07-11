@@ -46,6 +46,9 @@ const Stage: FC = function () {
   const children = useAppSelector(selectChildren);
   const width = useAppSelector(selectPresent((state) => state.width));
   const height = useAppSelector(selectPresent((state) => state.height));
+  const currentActive = useAppSelector(
+    selectPresent((state) => state.currentActive),
+  );
 
   const [Components, setComponents] = useState<ReactNode[]>([]);
 
@@ -61,8 +64,10 @@ const Stage: FC = function () {
   const onStageClick = (e: SyntheticEvent<HTMLDivElement>) => {
     // 当 Stage 或 Room 被点击的时候，将 active 置为 null
     if (
-      e.target === e.currentTarget ||
-      (e.target && (e.target as HTMLDivElement).parentNode === e.currentTarget)
+      currentActive &&
+      (e.target === e.currentTarget ||
+        (e.target &&
+          (e.target as HTMLDivElement).parentNode === e.currentTarget))
     ) {
       dispatch(inactive());
     }

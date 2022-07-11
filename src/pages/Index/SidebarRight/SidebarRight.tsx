@@ -1,4 +1,5 @@
 import { useAppSelector } from '@/store/hooks';
+import { selectPresent } from '@/store/stageSlice';
 import { Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import ComponentAttrsEditor from './ComponentAttrsEditor/ComponentAttrsEditor';
@@ -23,26 +24,25 @@ const TabsName = {
 };
 
 const SidebarRight: React.FC = function () {
-  const activeInstance = useAppSelector((state) => {
-    const _state = state.stage.present;
-
-    return _state.active !== -1
-      ? _state.children.find((child) => child.iid === _state.active)
-      : undefined;
-  });
+  const activeInstance = useAppSelector(
+    selectPresent((state) =>
+      state.currentActive !== -1
+        ? state.children.find((child) => child.iid === state.currentActive)
+        : undefined,
+    ),
+  );
 
   const [activeKey, setActiveKey] = useState<TabsEnum>(TabsEnum.GLOBAL);
-  const activatedIID = activeInstance?.iid;
   useEffect(() => {
     // 当选中一个实例时，默认激活“组件”Tab
     // 当无实例选中时，默认激活“全局”Tab
     // 在实例之间切换选择不会切换Tab
-    if (activatedIID !== undefined) {
+    if (activeInstance) {
       setActiveKey(TabsEnum.COMPONENT);
     } else {
       setActiveKey(TabsEnum.GLOBAL);
     }
-  }, [activatedIID === undefined]);
+  }, [!!activeInstance]);
 
   return (
     <Tabs

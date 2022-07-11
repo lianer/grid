@@ -119,6 +119,8 @@
 - antd
 - ahooks
 - lodash-es
-- react-dnd - drag and drop
+- react-dnd - drag and drop <https://github.com/react-dnd/react-dnd>
 - react-rnd - movable and resizable <https://github.com/bokuweb/react-rnd>
 - react-colorful - color picker <https://github.com/omgovich/react-colorful>
+- redux-undo - simple undo/redo functionality for redux state containers <https://github.com/omnidan/redux-undo>
+- type-fest - A collection of essential TypeScript types <https://github.com/sindresorhus/type-fest>

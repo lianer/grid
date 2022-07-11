@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { active } from '@/store/stageSlice';
+import { active, selectPresent } from '@/store/stageSlice';
 import {
   AutoHeightControlSchema,
   BasicControlSchema,
@@ -45,21 +45,19 @@ const Control: React.FC<
   PropsWithChildren<{ iid: number; control: ControlSchema }>
 > = memo(function ({ children, iid, control }) {
   // 使用表达式减少不相关的组件的重新渲染
-  const isActive = useAppSelector((state) => {
-    const _state = state.stage.present;
-    return _state.active === iid;
-  });
+  const controlIsActive = useAppSelector(
+    selectPresent((state) => state.currentActive === iid),
+  );
+
   const dispatch = useAppDispatch();
 
-  // console.log('Control rerender', children, iid, control, isActive);
-
   const onControlClick = useCallback(() => {
-    dispatch(active({ iid }));
-  }, [iid]);
+    if (!controlIsActive) dispatch(active({ iid }));
+  }, [iid, controlIsActive]);
 
   return (
     <div className="Control" onClick={onControlClick}>
-      <ControlFilter iid={iid} isActive={isActive} control={control}>
+      <ControlFilter iid={iid} isActive={controlIsActive} control={control}>
         {children}
       </ControlFilter>
     </div>

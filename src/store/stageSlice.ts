@@ -15,7 +15,7 @@ export interface StageState {
   left: number; // 舞台距离广场左侧的距离，广场指的是 contianer 的容器，假设广场里有一个舞台，舞台相对于广场的位置
   top: number; // 舞台距离广场边界的距离
   scale: number; // 缩放尺寸，0-1
-  active: number | null; // 选中的组件
+  currentActive: number | null; // 选中的组件
   children: InstanceSchema[]; // 舞台中已经添加的组件
 }
 
@@ -87,7 +87,7 @@ export const slice = createSlice({
         iid,
       };
       state.children = [...state.children, instanceSchema];
-      state.active = iid;
+      state.currentActive = iid;
     },
 
     // 在 ControlComponent 中通过 changeContorl 更新 ControlSchema
@@ -137,12 +137,12 @@ export const slice = createSlice({
 
     // 选中一个实例
     active: (state, { payload }: PayloadAction<{ iid: number }>) => {
-      state.active = payload.iid;
+      state.currentActive = payload.iid;
     },
 
     // 取消选中实例
     inactive: (state) => {
-      state.active = null;
+      state.currentActive = null;
     },
 
     // 将实例的顺序上移

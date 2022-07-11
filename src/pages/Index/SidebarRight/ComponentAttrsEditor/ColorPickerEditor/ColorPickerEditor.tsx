@@ -2,8 +2,15 @@ import AttrUtils from '@/lib/AttrUtils';
 import StorageUtil from '@/lib/StorageUtil';
 import { HistoryOutlined } from '@ant-design/icons';
 import { Form, Popover } from 'antd';
+import { debounce } from 'lodash-es';
+import { useCallback } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import s from './ColorPickerEditor.less';
+
+const debounced = debounce(
+  (fn: Function, ...args: unknown[]) => fn(...args),
+  100,
+);
 
 const colorStorage = new StorageUtil({
   key: 'ColorPickerEditor.recentlyColors',
@@ -34,6 +41,11 @@ const ColorPickerEditor: React.FC<{
 }> = function ({ attr, update }) {
   const recentlyColors = colorStorage.read() ?? [];
 
+  const updateColorImmediate = useCallback((color: string) => {
+    updateRecentlyColors(color);
+    update({ ...attr, value: color });
+  }, []);
+
   // 最近使用的颜色
   const Recently = (
     <div className="Recently flex flex-row items-center h-6 px-1 rounded-bl-lg rounded-br-lg overflow-hidden">
@@ -43,10 +55,7 @@ const ColorPickerEditor: React.FC<{
           key={color}
           className="ColorButton block w-4 h-4 mr-px last:mr-0 border border-gray-200 hover:border-gray-900 cursor-pointer"
           style={{ backgroundColor: color }}
-          onClick={() => {
-            updateRecentlyColors(color);
-            update({ ...attr, value: color });
-          }}
+          onClick={() => updateColorImmediate(color)}
         ></div>
       ))}
     </div>
@@ -58,8 +67,7 @@ const ColorPickerEditor: React.FC<{
       <HexColorPicker
         color={attr.value}
         onChange={(value: string) => {
-          updateRecentlyColors(value);
-          update({ ...attr, value });
+          debounced(updateColorImmediate, value);
         }}
       />
       {Recently}
