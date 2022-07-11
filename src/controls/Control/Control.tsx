@@ -45,7 +45,10 @@ const Control: React.FC<
   PropsWithChildren<{ iid: number; control: ControlSchema }>
 > = memo(function ({ children, iid, control }) {
   // 使用表达式减少不相关的组件的重新渲染
-  const isActive = useAppSelector((state) => state.stage.active === iid);
+  const isActive = useAppSelector((state) => {
+    const _state = state.stage.present;
+    return _state.active === iid;
+  });
   const dispatch = useAppDispatch();
 
   // console.log('Control rerender', children, iid, control, isActive);
