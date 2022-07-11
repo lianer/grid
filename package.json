@@ -22,6 +22,7 @@
     "react-rnd": "^10.3.7",
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
+    "redux-undo": "^1.0.1",
     "type-fest": "^2.16.0",
     "umi": "^4.0.5"
   },

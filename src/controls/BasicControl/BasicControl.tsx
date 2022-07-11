@@ -1,7 +1,7 @@
 import { useAppDispatch } from '@/store/hooks';
 import { changeControl } from '@/store/stageSlice';
 import { BasicControlSchema } from '@/types';
-import { FC, PropsWithChildren, useState } from 'react';
+import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import s from './BasicControl.less';
 
@@ -18,6 +18,11 @@ const BasicControl: FC<
   const [localControl, setLocalControl] = useState<BasicControlSchema>({
     ...control,
   });
+
+  // 当 control 发生变化的时候，需要重新映射到 localControl
+  useEffect(() => {
+    setLocalControl({ ...control });
+  }, [control]);
 
   const autoWidth = localControl.width === undefined;
   const autoHeight = localControl.height === undefined;

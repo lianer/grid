@@ -24,8 +24,10 @@ const TabsName = {
 
 const SidebarRight: React.FC = function () {
   const activeInstance = useAppSelector((state) => {
-    return state.stage.active !== -1
-      ? state.stage.children.find((child) => child.iid === state.stage.active)
+    const _state = state.stage.present;
+
+    return _state.active !== -1
+      ? _state.children.find((child) => child.iid === _state.active)
       : undefined;
   });
 

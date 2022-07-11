@@ -21,6 +21,7 @@ specifiers:
   react-rnd: ^10.3.7
   redux: ^4.2.0
   redux-logger: ^3.0.6
+  redux-undo: ^1.0.1
   tailwindcss: ^3
   type-fest: ^2.16.0
   typescript: ^4.1.2
@@ -41,6 +42,7 @@ dependencies:
   react-rnd: 10.3.7
   redux: 4.2.0
   redux-logger: 3.0.6
+  redux-undo: 1.0.1
   type-fest: 2.16.0
   umi: 4.0.5_yxqjjjpxe6sex54kycyntfaplq
 
@@ -6973,6 +6975,10 @@ packages:
       redux: ^4
     dependencies:
       redux: 4.2.0
+    dev: false
+
+  /redux-undo/1.0.1:
+    resolution: {integrity: sha512-0yFPT+FUgwxCEiS0Mg5T1S4tkgjR8h6sJRY9CW4EMsbJOf1SxO289TbJmlzhRouCHacdDF+powPjrjLHoJYxWQ==}
     dev: false
 
   /redux/4.2.0:

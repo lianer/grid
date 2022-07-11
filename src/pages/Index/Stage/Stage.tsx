@@ -1,7 +1,12 @@
 import Control from '@/controls/Control/Control';
 import { loadById } from '@/lib/loader';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { changeAttrs, inactive, selectChildren } from '@/store/stageSlice';
+import {
+  changeAttrs,
+  inactive,
+  selectChildren,
+  selectPresent,
+} from '@/store/stageSlice';
 import { AttrsSchema, InstanceSchema } from '@/types';
 import {
   FC,
@@ -39,12 +44,10 @@ const CachedComp: FC<{
 const Stage: FC = function () {
   const dispatch = useAppDispatch();
   const children = useAppSelector(selectChildren);
-  const width = useAppSelector((state) => state.stage.width);
-  const height = useAppSelector((state) => state.stage.height);
+  const width = useAppSelector(selectPresent((state) => state.width));
+  const height = useAppSelector(selectPresent((state) => state.height));
 
   const [Components, setComponents] = useState<ReactNode[]>([]);
-
-  // console.log('Stage rerender');
 
   // 异步加载组件并生成舞台实例
   useEffect(() => {

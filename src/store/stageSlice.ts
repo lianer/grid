@@ -9,7 +9,7 @@ import { createSlice, Middleware, PayloadAction } from '@reduxjs/toolkit';
 import { debounce, merge } from 'lodash-es';
 import { RootState } from './store';
 
-interface State {
+export interface StageState {
   width: number; // 舞台的宽度
   height: number; // 舞台的高度
   left: number; // 舞台距离广场左侧的距离，广场指的是 contianer 的容器，假设广场里有一个舞台，舞台相对于广场的位置
@@ -37,7 +37,7 @@ const center = (
   }
 };
 
-const initialState: State = stageStorage.read() || {
+const initialState: StageState = stageStorage.read() || {
   width: 1200,
   height: 600,
   left: 0,
@@ -174,7 +174,25 @@ export const {
   moveUp,
 } = slice.actions;
 
-export const selectChildren = (state: RootState) => state.stage.children;
+export const selectChildren = (state: RootState) => {
+  return state.stage.present.children;
+};
+
+type Present = RootState['stage']['present'];
+
+export const selectPresent = <R>(selector: (state: Present) => R) => {
+  return (state: RootState) => {
+    return selector(state.stage.present);
+  };
+};
+
+export const selectPast = (state: RootState) => {
+  return state.stage.past;
+};
+
+export const selectFuture = (state: RootState) => {
+  return state.stage.future;
+};
 
 // 本地存储 Redux Middleware
 export const gridStorage: Middleware = function ({ getState }) {
@@ -184,7 +202,7 @@ export const gridStorage: Middleware = function ({ getState }) {
     return (action) => {
       next(action);
       if (action.type.startsWith('stage/')) {
-        const state = getState().stage;
+        const state = getState().stage.present;
         save(state);
       }
     };

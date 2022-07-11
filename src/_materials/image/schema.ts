@@ -16,6 +16,7 @@ const schema: ImageSchema = {
     icon: 'https://lianer-design-hd1.oss-cn-hangzhou.aliyuncs.com/projects/grid/image.svg',
     category: 'basic',
   },
+
   control: {
     type: 'BasicControlSchema',
     width: 400,

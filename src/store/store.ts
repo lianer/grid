@@ -1,12 +1,13 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
+import undoable from 'redux-undo';
 import material from './materialSlice';
-import stage, { gridStorage } from './stageSlice';
+import stage, { gridStorage, StageState } from './stageSlice';
 
 export const store = configureStore({
   reducer: {
     material,
-    stage,
+    stage: undoable<StageState>(stage),
   },
 
   // https://redux-toolkit.js.org/api/getDefaultMiddleware#intended-usage
@@ -23,3 +24,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+// debug
+(window as any).store = store;

@@ -1,29 +1,8 @@
-import { Link } from 'umi';
+import ActionBar from './ActionBar';
+import MenuBar from './MenuBar';
 import SidebarLeft from './SidebarLeft';
 import SidebarRight from './SidebarRight';
 import Stage from './Stage';
-
-const MenuBar: React.FC = function () {
-  return (
-    <div className="flex flex-row items-center h-8 px-4 gap-4">
-      <Link to="">Home</Link>
-      <Link to="/about">About</Link>
-      <Link to="">Util</Link>
-      <Link to="">Help</Link>
-    </div>
-  );
-};
-
-const ActionBar: React.FC = function () {
-  return (
-    <div
-      className="flex flex-row items-center h-16 px-4 overflow-hidden text-2xl border-b bg-white rounded-t-xl"
-      style={{ boxShadow: '0 -3px 3px rgba(0, 0, 0, 0.03)' }}
-    >
-      <h1 className="GridTitle mb-0">Grid</h1>
-    </div>
-  );
-};
 
 const HomePage: React.FC = function () {
   return (
