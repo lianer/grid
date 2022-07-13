@@ -123,21 +123,36 @@ export const slice = createSlice({
         return state;
       }
 
-      if (!target.attrs[payload.attrName]) {
+      // example: oldAttr = AttrUtils.ColorPicker
+      let oldAttr = target.attrs[payload.attrName];
+      if (!oldAttr) {
         console.error(
           `[Grid] changeAttr: 元素 ${target} 中不存在该属性 attrs.${payload.attrName}`,
         );
         return state;
       }
 
-      if (target.attrs[payload.attrName] === payload.attrValue) {
+      if (oldAttr === payload.attrValue) {
         console.error(
           `[Grid] changeAttr: 不要直接修改原始对象，请提交一个新的对象 attrs.${payload.attrName}`,
         );
         return state;
       }
 
-      target.attrs[payload.attrName] = payload.attrValue;
+      const copyAttr = { ...oldAttr };
+
+      // 采用差异化对比，而不是直接覆盖原始值，避免物料代码的问题导致 schema 结构发生变化
+      for (let key in payload.attrValue) {
+        if (!copyAttr.hasOwnProperty(key)) {
+          console.error(
+            `[Grid] changeAttr: 元素 ${target} 中不存在该属性 attrs.${payload.attrName}.${key}`,
+          );
+          continue;
+        }
+        copyAttr[key] = payload.attrValue[key];
+      }
+
+      target.attrs[payload.attrName] = copyAttr;
     },
 
     // 选中一个实例

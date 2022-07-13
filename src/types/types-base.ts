@@ -15,3 +15,5 @@ export type BaseSchema = {
 
 export type AttrSchema = Record<PropertyKey, any>;
 export type AttrsSchema = Record<PropertyKey, AttrSchema>;
+
+export type UpdateAttr = (newAttrValue: AttrSchema) => void;
