@@ -49,18 +49,17 @@ const ComponentAttrsEditor: React.FC<{ instanceSchema: InstanceSchema }> =
             labelAlign="left"
             colon={false}
           >
-            {Object.entries(attrs).map(
-              ([attrName, attrValue]: [string, any]) => (
-                // 在两个相同物料的实例之间切换时，
-                // 如果 key 相同则会导致 react 复用 AttrEditorFilter，
-                // 从而导致 ColorPickerEditor/SelectorEditor 等 Editor 内部会共享副作用
-                // 因此这里不能使用 attrName 作为 key
+            {Object.keys(attrs).map((attrName: string) => {
+              // 在两个相同物料的实例之间切换时，
+              // 如果 key 相同则会导致 react 复用 AttrEditorFilter，
+              // 从而导致 ColorPickerEditor/SelectorEditor 等 Editor 内部会共享副作用
+              // 因此这里不能使用 attrName 作为 key
+              return (
                 <AttrEditorFilter
                   key={`@${iid}/${attrName}`}
                   iid={iid}
-                  attr={attrValue}
+                  attr={attrs[attrName]}
                   update={(newAttrValue) => {
-                    console.log(iid, attrName, newAttrValue);
                     dispatch(
                       changeAttr({
                         iid,
@@ -70,8 +69,8 @@ const ComponentAttrsEditor: React.FC<{ instanceSchema: InstanceSchema }> =
                     );
                   }}
                 />
-              ),
-            )}
+              );
+            })}
           </Form>
         </main>
       </div>

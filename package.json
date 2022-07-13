@@ -19,6 +19,7 @@
     "react-colorful": "^5.5.1",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
+    "react-hotkeys": "^2.0.0",
     "react-redux": "^8.0.2",
     "react-rnd": "^10.3.7",
     "redux": "^4.2.0",

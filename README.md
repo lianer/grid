@@ -125,3 +125,4 @@
 - redux-undo - simple undo/redo functionality for redux state containers <https://github.com/omnidan/redux-undo>
 - type-fest - A collection of essential TypeScript types <https://github.com/sindresorhus/type-fest>
 - classnames - A simple JavaScript utility for conditionally joining classNames together. <https://www.npmjs.com/package/classnames>
+- react-hotkeys - hotkeys <https://github.com/greena13/react-hotkeys>

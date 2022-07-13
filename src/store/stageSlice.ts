@@ -90,6 +90,19 @@ export const slice = createSlice({
       state.currentActive = iid;
     },
 
+    // 删除指定实例
+    remove: (state, { payload }: PayloadAction<{ iid: number }>) => {
+      const children = state.children;
+      const targetIndex = children.findIndex(
+        (item) => item.iid === payload.iid,
+      );
+      if (~targetIndex) {
+        children.splice(targetIndex, 1);
+      } else {
+        console.error(`[Grid] remove: 未找到 iid 为 ${payload.iid} 的元素`);
+      }
+    },
+
     // 在 ControlComponent 中通过 changeContorl 更新 ControlSchema
     changeControl: (
       state,
@@ -187,6 +200,7 @@ export const {
   resizeStage,
   scaleStage,
   add,
+  remove,
   changeControl,
   changeAttr,
   active,
