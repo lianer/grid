@@ -13,4 +13,5 @@ export type BaseSchema = {
   category: ComponentCategory;
 };
 
-export type AttrsSchema = Record<PropertyKey, any>;
+export type AttrSchema = Record<PropertyKey, any>;
+export type AttrsSchema = Record<PropertyKey, AttrSchema>;

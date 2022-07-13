@@ -1,6 +1,6 @@
 import AttrUtils from '@/lib/AttrUtils';
 import { useAppDispatch } from '@/store/hooks';
-import { changeAttrs } from '@/store/stageSlice';
+import { changeAttr } from '@/store/stageSlice';
 import { InstanceSchema } from '@/types';
 import { Form } from 'antd';
 import ColorPickerEditor from './ColorPickerEditor/ColorPickerEditor';
@@ -30,10 +30,10 @@ const AttrEditorFilter: React.FC<{ attr: any; update: (attr: any) => void }> =
 const ComponentAttrsEditor: React.FC<{ instanceSchema: InstanceSchema }> =
   function ({ instanceSchema }) {
     const dispatch = useAppDispatch();
-    const { iid, base, control, attrs } = instanceSchema;
+    const { iid, base, attrs } = instanceSchema;
 
     return (
-      <div className="ComponentAttrsEditor h-full">
+      <div className="ComponentAttrsEditor flex flex-col h-full">
         <header className="flex flex-row items-center h-10 bg-gray-50 px-2 ">
           <img className="inline-block mr-2 w-4 h-4" src={base.icon} />
           <span className="mr-2">{base.name}</span>
@@ -46,23 +46,23 @@ const ComponentAttrsEditor: React.FC<{ instanceSchema: InstanceSchema }> =
             labelAlign="left"
             colon={false}
           >
-            {Object.entries(attrs).map(([name, attr]: [string, any]) => (
-              <AttrEditorFilter
-                key={name}
-                attr={attr}
-                update={(_attr) => {
-                  dispatch(
-                    changeAttrs({
-                      iid,
-                      attrs: {
-                        ...attrs,
-                        [name]: _attr,
-                      },
-                    }),
-                  );
-                }}
-              />
-            ))}
+            {Object.entries(attrs).map(
+              ([attrName, attrValue]: [string, any]) => (
+                <AttrEditorFilter
+                  key={attrName}
+                  attr={attrValue}
+                  update={(newAttrValue) => {
+                    dispatch(
+                      changeAttr({
+                        iid,
+                        attrName,
+                        attrValue: newAttrValue,
+                      }),
+                    );
+                  }}
+                />
+              ),
+            )}
           </Form>
         </main>
       </div>

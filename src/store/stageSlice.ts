@@ -1,12 +1,12 @@
 import StorageUtil from '@/lib/StorageUtil';
 import {
-  AttrsSchema,
+  AttrSchema,
   ComponentSchema,
   ControlSchema,
   InstanceSchema,
 } from '@/types';
 import { createSlice, Middleware, PayloadAction } from '@reduxjs/toolkit';
-import { debounce, merge } from 'lodash-es';
+import { debounce } from 'lodash-es';
 import { RootState } from './store';
 
 export interface StageState {
@@ -106,33 +106,38 @@ export const slice = createSlice({
       }
     },
 
-    // 在 AttrEditor 中通过 changeAttrs 更新 AttrsSchema
-    changeAttrs: (
+    // 在 AttrEditor 中通过 changeAttr 更新 AttrsSchema
+    changeAttr: (
       state,
-      { payload }: PayloadAction<{ iid: number; attrs: AttrsSchema }>,
+      {
+        payload,
+      }: PayloadAction<{
+        iid: number;
+        attrName: string;
+        attrValue: AttrSchema;
+      }>,
     ) => {
-      state.children = state.children.map((item) => {
-        if (item.iid === payload.iid) {
-          const oldAttrs = { ...item.attrs };
-          for (let [key, value] of Object.entries(payload.attrs)) {
-            if (oldAttrs.hasOwnProperty(key)) {
-              merge(oldAttrs, { [key]: value });
-            } else {
-              console.error(
-                `[Grid] changeAttrs: 组件 %o 不存在属性 attrs.${key}`,
-                {
-                  ...item,
-                },
-              );
-            }
-          }
-          return {
-            ...item,
-            attrs: oldAttrs,
-          };
-        }
-        return item;
-      });
+      const target = state.children.find((item) => item.iid === payload.iid);
+      if (!target) {
+        console.error(`[Grid] changeAttr: 未找到 iid 为 ${payload.iid} 的元素`);
+        return state;
+      }
+
+      if (!target.attrs[payload.attrName]) {
+        console.error(
+          `[Grid] changeAttr: 元素 ${target} 中不存在该属性 attrs.${payload.attrName}`,
+        );
+        return state;
+      }
+
+      if (target.attrs[payload.attrName] === payload.attrValue) {
+        console.error(
+          `[Grid] changeAttr: 不要直接修改原始对象，请提交一个新的对象 attrs.${payload.attrName}`,
+        );
+        return state;
+      }
+
+      target.attrs[payload.attrName] = payload.attrValue;
     },
 
     // 选中一个实例
@@ -168,7 +173,7 @@ export const {
   scaleStage,
   add,
   changeControl,
-  changeAttrs,
+  changeAttr,
   active,
   inactive,
   moveUp,

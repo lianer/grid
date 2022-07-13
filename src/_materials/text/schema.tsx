@@ -31,7 +31,7 @@ const schema: TextSchema = {
   attrs: {
     text: new AttrUtils.TextInput({
       value: '文本',
-      rows: 4,
+      rows: 8,
       maxLength: 10000,
     }),
     fontSize: new AttrUtils.NumberInput({ title: '字号', value: 14 }),

@@ -5,6 +5,7 @@ import {
   BasicControlSchema,
   ControlSchema,
 } from '@/types';
+import classnames from 'classnames';
 import { memo, PropsWithChildren, useCallback } from 'react';
 import AutoHeightControl from '../AutoHeightControl/AutoHeightControl';
 import BasicControl from '../BasicControl/BasicControl';
@@ -56,7 +57,10 @@ const Control: React.FC<
   }, [iid, controlIsActive]);
 
   return (
-    <div className="Control" onClick={onControlClick}>
+    <div
+      className={classnames('Control relative', { 'z-10': controlIsActive })}
+      onClick={onControlClick}
+    >
       <ControlFilter iid={iid} isActive={controlIsActive} control={control}>
         {children}
       </ControlFilter>

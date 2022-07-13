@@ -1,20 +1,14 @@
 import Control from '@/controls/Control/Control';
 import { loadById } from '@/lib/loader';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import {
-  changeAttrs,
-  inactive,
-  selectChildren,
-  selectPresent,
-} from '@/store/stageSlice';
-import { AttrsSchema, InstanceSchema } from '@/types';
+import { inactive, selectChildren, selectPresent } from '@/store/stageSlice';
+import { InstanceSchema } from '@/types';
 import classnames from 'classnames';
 import {
   FC,
   memo,
   ReactNode,
   SyntheticEvent,
-  useCallback,
   useEffect,
   useState,
 } from 'react';
@@ -28,16 +22,9 @@ const CachedComp: FC<{
   child: InstanceSchema;
   Comp: React.LazyExoticComponent<React.ComponentType<any>>;
 }> = memo(function ({ child, Comp }) {
-  const dispatch = useAppDispatch();
-  const onCompUpdate = useCallback((_attrs: AttrsSchema) => {
-    dispatch(changeAttrs({ iid: child.iid, attrs: _attrs }));
-  }, []);
-
-  // console.log('CachedComp rerender');
-
   return (
     <Control key={child.iid} iid={child.iid} control={child.control}>
-      <Comp {...child} stage={true} onCompUpdate={onCompUpdate}></Comp>
+      <Comp {...child} stage={true}></Comp>
     </Control>
   );
 });
