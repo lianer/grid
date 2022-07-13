@@ -1,7 +1,7 @@
 import AttrUtils from '@/lib/AttrUtils';
 import { useAppDispatch } from '@/store/hooks';
 import { changeAttr } from '@/store/stageSlice';
-import { InstanceSchema } from '@/types';
+import { InstanceSchema, UpdateAttr } from '@/types';
 import { Form } from 'antd';
 import ColorPickerEditor from './ColorPickerEditor/ColorPickerEditor';
 import NumberInputEditor from './NumberInputEditor/NumberInputEditor';
@@ -9,23 +9,26 @@ import SelectorEditor from './SelectorEditor/SelectorEditor';
 import SliderEditor from './SliderEditor/SliderEditor';
 import TextInputEditor from './TextInputEditor/TextInputEditor';
 
-const AttrEditorFilter: React.FC<{ attr: any; update: (attr: any) => void }> =
-  function ({ attr, update }) {
-    switch (attr.type) {
-      case AttrUtils.TextInput.name:
-        return <TextInputEditor attr={attr} update={update} />;
-      case AttrUtils.NumberInput.name:
-        return <NumberInputEditor attr={attr} update={update} />;
-      case AttrUtils.Selector.name:
-        return <SelectorEditor attr={attr} update={update} />;
-      case AttrUtils.ColorPicker.name:
-        return <ColorPickerEditor attr={attr} update={update} />;
-      case AttrUtils.Slider.name:
-        return <SliderEditor attr={attr} update={update} />;
-      default:
-        return <div>未知属性</div>;
-    }
-  };
+const AttrEditorFilter: React.FC<{
+  iid: number;
+  attr: any;
+  update: UpdateAttr;
+}> = function ({ iid, attr, update }) {
+  switch (attr.type) {
+    case AttrUtils.TextInput.name:
+      return <TextInputEditor iid={iid} attr={attr} update={update} />;
+    case AttrUtils.NumberInput.name:
+      return <NumberInputEditor iid={iid} attr={attr} update={update} />;
+    case AttrUtils.Selector.name:
+      return <SelectorEditor iid={iid} attr={attr} update={update} />;
+    case AttrUtils.ColorPicker.name:
+      return <ColorPickerEditor iid={iid} attr={attr} update={update} />;
+    case AttrUtils.Slider.name:
+      return <SliderEditor iid={iid} attr={attr} update={update} />;
+    default:
+      return <div>未知属性</div>;
+  }
+};
 
 const ComponentAttrsEditor: React.FC<{ instanceSchema: InstanceSchema }> =
   function ({ instanceSchema }) {
@@ -48,10 +51,16 @@ const ComponentAttrsEditor: React.FC<{ instanceSchema: InstanceSchema }> =
           >
             {Object.entries(attrs).map(
               ([attrName, attrValue]: [string, any]) => (
+                // 在两个相同物料的实例之间切换时，
+                // 如果 key 相同则会导致 react 复用 AttrEditorFilter，
+                // 从而导致 ColorPickerEditor/SelectorEditor 等 Editor 内部会共享副作用
+                // 因此这里不能使用 attrName 作为 key
                 <AttrEditorFilter
-                  key={attrName}
+                  key={`@${iid}/${attrName}`}
+                  iid={iid}
                   attr={attrValue}
                   update={(newAttrValue) => {
+                    console.log(iid, attrName, newAttrValue);
                     dispatch(
                       changeAttr({
                         iid,

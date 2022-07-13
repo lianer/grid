@@ -2,9 +2,10 @@ import AttrUtils from '@/lib/AttrUtils';
 import { Form, Input } from 'antd';
 
 const TextInputEditor: React.FC<{
+  iid: number;
   attr: AttrUtils.TextInput;
   update: (attr: any) => void;
-}> = function ({ attr, update }) {
+}> = function ({ iid, attr, update }) {
   return (
     <Form.Item label={attr.title}>
       {attr.rows > 1 && (

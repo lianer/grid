@@ -4,9 +4,10 @@ import { Form, Select } from 'antd';
 const { Option } = Select;
 
 const SelectorEditor: React.FC<{
+  iid: number;
   attr: AttrUtils.Selector<any, any>;
   update: (attr: any) => void;
-}> = function ({ attr, update }) {
+}> = function ({ iid, attr, update }) {
   return (
     <Form.Item label={attr.title}>
       <Select

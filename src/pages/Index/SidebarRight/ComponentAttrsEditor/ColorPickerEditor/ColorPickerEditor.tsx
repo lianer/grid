@@ -1,5 +1,6 @@
 import AttrUtils from '@/lib/AttrUtils';
 import StorageUtil from '@/lib/StorageUtil';
+import { UpdateAttr } from '@/types';
 import { HistoryOutlined } from '@ant-design/icons';
 import { Form, Popover } from 'antd';
 import { debounce } from 'lodash-es';
@@ -36,9 +37,10 @@ const updateRecentlyColors = function (value: string) {
 
 // 颜色选择器
 const ColorPickerEditor: React.FC<{
+  iid: number;
   attr: AttrUtils.ColorPicker;
-  update: (attr: any) => void;
-}> = function ({ attr, update }) {
+  update: UpdateAttr;
+}> = function ({ iid, attr, update }) {
   const recentlyColors = colorStorage.read() ?? [];
 
   const updateColorImmediate = useCallback((color: string) => {

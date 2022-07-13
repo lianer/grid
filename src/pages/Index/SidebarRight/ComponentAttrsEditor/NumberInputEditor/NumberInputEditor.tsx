@@ -2,9 +2,10 @@ import AttrUtils from '@/lib/AttrUtils';
 import { Form, InputNumber } from 'antd';
 
 const NumberInputEditor: React.FC<{
+  iid: number;
   attr: AttrUtils.NumberInput;
   update: (attr: any) => void;
-}> = function ({ attr, update }) {
+}> = function ({ iid, attr, update }) {
   return (
     <Form.Item label={attr.title}>
       <InputNumber

@@ -2,9 +2,10 @@ import AttrUtils from '@/lib/AttrUtils';
 import { Form, Slider } from 'antd';
 
 const SliderEditor: React.FC<{
+  iid: number;
   attr: AttrUtils.Slider;
   update: (attr: any) => void;
-}> = function ({ attr, update }) {
+}> = function ({ iid, attr, update }) {
   return (
     <Form.Item label={attr.title}>
       <Slider
