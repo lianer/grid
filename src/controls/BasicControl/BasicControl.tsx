@@ -54,6 +54,8 @@ const BasicControl: FC<
 
   return (
     <Rnd
+      dragGrid={[8, 8]}
+      resizeGrid={[8, 8]}
       disableDragging={!isActive}
       enableResizing={isActive ? resizeOptions : false}
       position={{
