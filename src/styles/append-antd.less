@@ -1,4 +1,9 @@
 // 通过 less 导入 antd.css，使其顺序在 tailwind.css 之后，拥有更高的优先级
 // 在 antd 和 tailwind 混用的情况下，确保有以下样式优先级原则
 //   tailwind class (#root 前缀) > antd > tailwind base
-@import 'antd/dist/antd.css';
+@import 'antd/dist/antd.less';
+// @import 'antd/dist/antd.variable.min.css';
+
+// html {
+//   --ant-primary-color-outline: transparent;
+// }

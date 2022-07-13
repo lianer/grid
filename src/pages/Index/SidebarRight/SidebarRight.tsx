@@ -1,6 +1,7 @@
 import { useAppSelector } from '@/store/hooks';
 import { selectPresent } from '@/store/stageSlice';
 import { Tabs } from 'antd';
+import classnames from 'classnames';
 import { useEffect, useState } from 'react';
 import ComponentAttrsEditor from './ComponentAttrsEditor/ComponentAttrsEditor';
 import EventEditor from './EventEditor/EventEditor';
@@ -46,7 +47,7 @@ const SidebarRight: React.FC = function () {
 
   return (
     <Tabs
-      className={`${s.SidebarRight} h-full`}
+      className={classnames(s.SidebarRight, 'h-full')}
       defaultActiveKey={TabsEnum.GLOBAL}
       activeKey={activeKey}
       animated={false}

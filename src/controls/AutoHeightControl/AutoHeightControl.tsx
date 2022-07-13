@@ -1,4 +1,5 @@
 import { AutoHeightControlSchema } from '@/types';
+import classnames from 'classnames';
 import { FC, PropsWithChildren } from 'react';
 
 const Control: FC<
@@ -22,9 +23,12 @@ const Control: FC<
     >
       <div>{children}</div>
       <div
-        className={`absolute left-0 top-0 w-full h-full opacity-10 ${
-          isActive ? 'bg-blue-300' : ''
-        }`}
+        className={classnames(
+          'absolute left-0 top-0 w-full h-full opacity-10',
+          {
+            'bg-blue-300': isActive,
+          },
+        )}
       ></div>
     </div>
   );

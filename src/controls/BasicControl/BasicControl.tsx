@@ -1,6 +1,7 @@
 import { useAppDispatch } from '@/store/hooks';
 import { changeControl } from '@/store/stageSlice';
 import { BasicControlSchema } from '@/types';
+import classnames from 'classnames';
 import { isEqual } from 'lodash-es';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { Rnd } from 'react-rnd';
@@ -78,7 +79,9 @@ const BasicControl: FC<
       onResizeStop={dispatchChangeControl}
     >
       <div
-        className={`BasicControl ${s.BasicControl} ${isActive ? s.Active : ''}`}
+        className={classnames('BasicControl', s.BasicControl, {
+          [s.Active]: isActive,
+        })}
         style={{
           width: autoWidth ? undefined : `${localControl.width}px`,
           height: autoHeight ? undefined : `${localControl.height}px`,
@@ -86,9 +89,10 @@ const BasicControl: FC<
       >
         <div className="BasicControlContainer">{children}</div>
         <div
-          className={`absolute left-0 top-0 w-full h-full opacity-10 ${
-            isActive ? 'bg-blue-400' : ''
-          }`}
+          className={classnames(
+            'absolute left-0 top-0 w-full h-full opacity-10',
+            { 'bg-blue-400': isActive },
+          )}
         ></div>
       </div>
     </Rnd>

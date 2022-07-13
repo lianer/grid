@@ -1,10 +1,18 @@
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { selectMaterial, updateListAsync } from '@/store/materialSlice';
+import { getMaterialList } from '@/lib/loader';
+import { useAppDispatch } from '@/store/hooks';
 import { add } from '@/store/stageSlice';
 import { ComponentCategory, ComponentSchema } from '@/types';
+import { useAsyncEffect } from 'ahooks';
 import { List, Tabs } from 'antd';
-import { FC, useEffect, useState } from 'react';
+import classnames from 'classnames';
+import { FC, useState } from 'react';
 import s from './SidebarLeft.less';
+
+const defaultList: Record<ComponentCategory, ComponentSchema[]> = {
+  basic: [],
+  chart: [],
+  map: [],
+};
 
 const tabs: Record<ComponentCategory, string> = {
   basic: '基础控件',
@@ -37,12 +45,20 @@ const Item: FC<{ item: ComponentSchema; index: number; length: number }> = ({
 
   return (
     <List.Item
-      className={`h-32 pt-6 pb-4 mb-0 overflow-hidden border-solid ${borderRight} ${borderBottom} border-gray-100 hover:bg-gray-50 opacity-60 hover:opacity-100 transition-opacity`}
+      className={classnames(
+        'h-32 pt-6 pb-4 mb-0 overflow-hidden border-solid',
+        borderRight,
+        borderBottom,
+        'border-gray-100 hover:bg-gray-50 opacity-60 hover:opacity-100 transition-opacity cursor-pointer',
+      )}
       key={base.cid}
       onClick={addToStage}
     >
       <img
-        className={`block w-10 h-10 mx-auto mb-2 object-contain fill-current	text-green-600 ${s.Icon}`}
+        className={classnames(
+          'block w-10 h-10 mx-auto mb-2 object-contain fill-current	text-green-600',
+          s.Icon,
+        )}
         src={base.icon}
       />
       <span className="block text-base text-center">{base.name}</span>
@@ -52,17 +68,23 @@ const Item: FC<{ item: ComponentSchema; index: number; length: number }> = ({
 
 const SidebarLeft: FC = function () {
   const [category, setCategory] = useState<ComponentCategory>('basic');
-  const list = useAppSelector(selectMaterial);
-  const dispatch = useAppDispatch();
+  const [list, setList] = useState(defaultList);
+  // const list = useAppSelector(selectMaterial);
+  // const dispatch = useAppDispatch();
 
   // tab 切换的时候，将列表切换为对应类型的组件
-  useEffect(() => {
-    dispatch(updateListAsync({ payload: { category } }));
+  useAsyncEffect(async () => {
+    // dispatch(updateListAsync({ payload: { category } }));
+    const _list = await getMaterialList(category);
+    setList({
+      ...list,
+      [category]: [..._list],
+    });
   }, [category]);
 
   return (
     <Tabs
-      className={`${s.SidebarLeft} h-full`}
+      className={classnames(s.SidebarLeft, 'h-full')}
       defaultActiveKey="basic"
       onChange={(activeKey) => setCategory(activeKey as ComponentCategory)}
       animated={false}
@@ -71,9 +93,13 @@ const SidebarLeft: FC = function () {
         <TabPane tab={tab} key={key}>
           <List
             grid={{ column: 2, gutter: 0 }}
-            dataSource={list}
+            dataSource={list[key as ComponentCategory]}
             renderItem={(item, index) => (
-              <Item item={item} index={index} length={list.length}></Item>
+              <Item
+                item={item}
+                index={index}
+                length={list[key as ComponentCategory].length}
+              ></Item>
             )}
           />
         </TabPane>

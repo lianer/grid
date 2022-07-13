@@ -8,6 +8,7 @@ import {
   selectPresent,
 } from '@/store/stageSlice';
 import { AttrsSchema, InstanceSchema } from '@/types';
+import classnames from 'classnames';
 import {
   FC,
   memo,
@@ -76,7 +77,7 @@ const Stage: FC = function () {
   return (
     <div className="Room h-full overflow-auto p-16" onClick={onStageClick}>
       <div
-        className={`${s.Stage} relative h-full bg-white`}
+        className={classnames(s.Stage, 'relative h-full bg-white')}
         style={{
           width,
           height,
