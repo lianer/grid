@@ -28,8 +28,8 @@ export default {
     // '@border-radius-base': '2px', // 组件/浮层圆角
     // '@border-color-base': '#d9d9d9', // 边框色
     // '@box-shadow-base': '0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05)', // 浮层阴影
-    '@primary-color': '#45a6ff', // 全局主色
-    '@link-color': '#45a6ff', // 链接色
+    '@primary-color': '#1b82d9', // 全局主色
+    '@link-color': '#1b82d9', // 链接色
     '@outline-width': 0, // 阴影范围
     '@select-item-selected-bg': '#eee', // select 下拉框选中背景
   },
