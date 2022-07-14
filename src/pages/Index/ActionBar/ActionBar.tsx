@@ -5,16 +5,26 @@ import {
   LeftOutlined,
   RightOutlined,
 } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, Slider } from 'antd';
 import classnames from 'classnames';
+import { useState } from 'react';
 import { ActionCreators } from 'redux-undo';
 import { Link } from 'umi';
 
 const ActionBar: React.FC = function () {
   const dispatch = useAppDispatch();
 
+  const timeline = useAppSelector((state) => {
+    const { index, past, future } = state.stage;
+    return {
+      index: index ?? 1,
+      length: past.length + future.length + 1,
+    };
+  });
   const past = useAppSelector(selectPast);
   const future = useAppSelector(selectFuture);
+
+  const [timelineVisisble, setTimelineVisible] = useState(false);
 
   return (
     <div
@@ -40,7 +50,7 @@ const ActionBar: React.FC = function () {
         />
         <Button
           className={classnames(
-            past.length > 0
+            future.length > 0
               ? ['opacity-60', 'hover:opacity-100']
               : ['opacity-20'],
           )}
@@ -49,7 +59,29 @@ const ActionBar: React.FC = function () {
           icon={<RightOutlined />}
           onClick={() => future.length > 0 && dispatch(ActionCreators.redo())}
         />
-        <Button type="text" shape="circle" icon={<HistoryOutlined />} />
+
+        {timeline.length > 1 && (
+          <Button
+            type="text"
+            shape="circle"
+            icon={<HistoryOutlined />}
+            onClick={() => setTimelineVisible(!timelineVisisble)}
+          />
+        )}
+
+        {timelineVisisble && (
+          <div className="w-40">
+            <Slider
+              value={timeline.index + 1}
+              min={1}
+              max={timeline.length}
+              tipFormatter={null}
+              onChange={(value: number) => {
+                dispatch(ActionCreators.jump(value - timeline.index - 1));
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
