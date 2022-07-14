@@ -44,9 +44,9 @@ const ComponentAttrsEditor: React.FC<{ instanceSchema: InstanceSchema }> =
         </header>
         <main className="overflow-auto p-2">
           <Form
-            labelCol={{ span: 4 }}
-            wrapperCol={{ span: 20 }}
+            wrapperCol={{ span: 24 }}
             labelAlign="left"
+            layout="vertical"
             colon={false}
           >
             {Object.keys(attrs).map((attrName: string) => {
