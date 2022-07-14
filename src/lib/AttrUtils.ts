@@ -28,11 +28,13 @@ export namespace AttrUtils {
     type = TextInput.name;
     title: string;
     value: string;
+    minLength: number;
     maxLength: number;
     rows: number;
     constructor(attrs: Partial<TextInput>) {
       this.title = attrs.title ?? '内容';
       this.value = attrs.value ?? '文本';
+      this.minLength = attrs.minLength ?? 0;
       this.maxLength = attrs.maxLength ?? 10000;
       this.rows = attrs.rows ?? 1;
     }
