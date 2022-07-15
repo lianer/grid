@@ -65,6 +65,7 @@ const TextAlignEditor: React.FC<{
         <Space className="bg-gray-100 rounded p-0.5">
           {alignHorizontalOptions.map((option) => (
             <IconButton
+              key={option.value}
               active={option.value === attr.horizontal}
               onClick={() => {
                 update({ ...attr, horizontal: option.value });
@@ -78,6 +79,7 @@ const TextAlignEditor: React.FC<{
         <Space className="bg-gray-100 rounded p-0.5">
           {alignVerticalOptions.map((option) => (
             <IconButton
+              key={option.value}
               active={option.value === attr.vertical}
               onClick={() => {
                 update({ ...attr, vertical: option.value });

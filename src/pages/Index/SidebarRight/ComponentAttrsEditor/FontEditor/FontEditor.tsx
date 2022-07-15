@@ -59,19 +59,19 @@ const FontEditor: React.FC<{
 }> = function ({ iid, attr, update }) {
   const fontStyleButtons = [
     {
-      type: 'bold',
+      value: 'bold',
       icon: <BoldOutlined />,
     },
     {
-      type: 'italic',
+      value: 'italic',
       icon: <ItalicOutlined />,
     },
     {
-      type: 'underline',
+      value: 'underline',
       icon: <UnderlineOutlined />,
     },
     {
-      type: 'through',
+      value: 'through',
       icon: <StrikethroughOutlined />,
     },
   ] as const;
@@ -109,9 +109,10 @@ const FontEditor: React.FC<{
         <Space className="bg-gray-100 rounded p-0.5">
           {fontStyleButtons.map((button) => (
             <IconButton
-              active={attr[button.type]}
+              key={button.value}
+              active={attr[button.value]}
               onClick={() => {
-                update({ ...attr, [button.type]: !attr[button.type] });
+                update({ ...attr, [button.value]: !attr[button.value] });
               }}
             >
               {button.icon}
