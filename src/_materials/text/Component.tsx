@@ -39,10 +39,12 @@ const Component: FC<TextSchema> = ({
         height: '100%',
         fontFamily: font.typeface,
         fontSize: `${font.size}px`,
+        lineHeight: 1.2,
         fontWeight: font.bold ? 'bold' : 'normal',
         fontStyle: font.italic ? 'italic' : '',
         textDecoration: mergeTextDecoration(font.underline, font.through),
         textAlign: align.horizontal,
+        wordBreak: 'break-all',
         color: color.value,
         opacity: opacity.value / 100,
       }}
