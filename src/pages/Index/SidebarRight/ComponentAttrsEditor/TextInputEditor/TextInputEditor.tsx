@@ -10,11 +10,13 @@ const TextInputEditor: React.FC<{
     <Form.Item label={attr.title}>
       {attr.rows > 1 && (
         <Input.TextArea
-          value={attr.value}
+          defaultValue={attr.value}
           rows={attr.rows}
           maxLength={attr.maxLength}
-          onChange={(e) => {
-            update({ ...attr, value: e.target.value });
+          onBlur={(e) => {
+            if (e.target.value !== attr.value) {
+              update({ ...attr, value: e.target.value });
+            }
           }}
         />
       )}

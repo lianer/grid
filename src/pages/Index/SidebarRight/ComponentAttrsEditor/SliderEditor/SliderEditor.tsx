@@ -14,10 +14,12 @@ const SliderEditor: React.FC<{
         max={attr.max}
         step={attr.step}
         onAfterChange={(value: number) => {
-          update({
-            ...attr,
-            value,
-          });
+          if (value !== attr.value) {
+            update({
+              ...attr,
+              value,
+            });
+          }
         }}
       />
     </Form.Item>
