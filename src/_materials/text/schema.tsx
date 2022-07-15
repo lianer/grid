@@ -5,8 +5,7 @@ type TextSchema = DefineSchema<
   BasicControlSchema,
   {
     text: AttrUtils.TextInput;
-    fontSize: AttrUtils.NumberInput;
-    fontWeight: AttrUtils.Selector<'bold' | 'normal', string>;
+    font: AttrUtils.Font;
     color: AttrUtils.ColorPicker;
     opacity: AttrUtils.Slider;
   }
@@ -34,21 +33,7 @@ const schema: TextSchema = {
       rows: 8,
       maxLength: 10000,
     }),
-    fontSize: new AttrUtils.NumberInput({ title: '字号', value: 14 }),
-    fontWeight: new AttrUtils.Selector({
-      title: '字粗',
-      value: 'normal',
-      options: [
-        {
-          label: '常规',
-          value: 'normal',
-        },
-        {
-          label: '粗体',
-          value: 'bold',
-        },
-      ],
-    }),
+    font: new AttrUtils.Font({}),
     color: new AttrUtils.ColorPicker({ value: '#333' }),
     opacity: new AttrUtils.Slider({ title: '透明' }),
   },

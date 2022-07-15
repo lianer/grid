@@ -3,26 +3,6 @@
 import { isEmpty, isUndefined } from 'lodash-es';
 
 export namespace AttrUtils {
-  // 提取数组中的所有类型
-  type GetElementType<T extends any[]> = T extends (infer U)[]
-    ? U extends any[]
-      ? GetElementType<U>
-      : U
-    : never;
-
-  // 将常规的 Attr 包装为 List<Attr>，可以支持动态重复添加 Attr 或删除之
-  // ! 不希望在 ComponentSchema 中储存构造函数
-  // export class List<T> {
-  //   type = List.name;
-  //   list: T[];
-  //   range: [number, number];
-
-  //   constructor(attrs: Omit<List<T>, 'type'>) {
-  //     this.list = attrs.list;
-  //     this.range = attrs.range ?? [0, 100];
-  //   }
-  // }
-
   // 常规文本输入框
   export class TextInput {
     type = TextInput.name;
@@ -108,6 +88,27 @@ export namespace AttrUtils {
       this.min = attrs.min ?? 0;
       this.max = attrs.max ?? 100;
       this.step = attrs.step ?? 1;
+    }
+  }
+
+  // 字体
+  export class Font {
+    type = Font.name;
+    title: string;
+    typeface: string;
+    size: number;
+    bold: boolean;
+    italic: boolean;
+    underline: boolean;
+    through: boolean;
+    constructor(attr: Partial<Font>) {
+      this.title = attr.title ?? '字体';
+      this.typeface = attr.typeface ?? 'sans-serif';
+      this.size = attr.size ?? 14;
+      this.bold = attr.bold ?? false;
+      this.italic = attr.italic ?? false;
+      this.underline = attr.underline ?? false;
+      this.through = attr.through ?? false;
     }
   }
 }
