@@ -48,8 +48,8 @@ const fontFamilyOptions = [
 ];
 
 const fontSizeOptions = [
-  12, 13, 14, 15, 16, 17, 18, 19, 20, 24, 28, 32, 36, 40, 48, 56, 64, 72, 80,
-  96, 112, 128,
+  12, 13, 14, 15, 16, 18, 20, 24, 28, 32, 36, 40, 48, 56, 64, 72, 80, 96, 112,
+  128,
 ];
 
 const FontEditor: React.FC<{
@@ -105,7 +105,7 @@ const FontEditor: React.FC<{
             </Select>
           </Col>
         </Row>
-        <Space className="w-full">
+        <Space className="bg-gray-100 rounded p-0.5">
           {fontStyleButtons.map((button) => (
             <IconButton
               active={attr[button.type]}

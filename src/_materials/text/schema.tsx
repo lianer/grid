@@ -6,6 +6,7 @@ type TextSchema = DefineSchema<
   {
     text: AttrUtils.TextInput;
     font: AttrUtils.Font;
+    align: AttrUtils.TextAlign;
     color: AttrUtils.ColorPicker;
     opacity: AttrUtils.Slider;
   }
@@ -34,6 +35,7 @@ const schema: TextSchema = {
       maxLength: 10000,
     }),
     font: new AttrUtils.Font({}),
+    align: new AttrUtils.TextAlign({}),
     color: new AttrUtils.ColorPicker({ value: '#333' }),
     opacity: new AttrUtils.Slider({ title: '透明' }),
   },

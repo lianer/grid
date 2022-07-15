@@ -11,6 +11,7 @@ specifiers:
   ahooks: ^3.5.1
   antd: ^4.21.4
   classnames: ^2.3.1
+  csstype: ^3.1.0
   lodash-es: ^4.17.21
   prettier: ^2
   prettier-plugin-organize-imports: ^2
@@ -54,6 +55,7 @@ devDependencies:
   '@types/react': 18.0.14
   '@types/react-dom': 18.0.5
   '@umijs/plugins': 4.0.5_cr72pph6437amwlos3jhqvv4cm
+  csstype: 3.1.0
   prettier: 2.7.1
   prettier-plugin-organize-imports: 2.3.4_gd3y7r3s3evy6b2vthd7dmacga
   prettier-plugin-packagejson: 2.2.18_prettier@2.7.1

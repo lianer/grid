@@ -111,11 +111,35 @@ export namespace AttrUtils {
       this.through = attr.through ?? false;
     }
   }
+
+  // 文字对齐
+  export type TextAlignHorizontal = 'left' | 'center' | 'right' | 'justify';
+  export type TextAlignVertical = 'top' | 'middle' | 'bottom';
+  export class TextAlign {
+    type = TextAlign.name;
+    title: string;
+    horizontal: TextAlignHorizontal;
+    vertical: TextAlignVertical;
+    constructor(attr: {
+      title?: string;
+      horizontal?: TextAlignHorizontal;
+      vertical?: TextAlignVertical;
+    }) {
+      this.title = attr.title ?? '对齐';
+      this.horizontal = attr.horizontal ?? 'left';
+      this.vertical = attr.vertical ?? 'top';
+    }
+  }
 }
 
 // 检测错误的配置
 Object.values(AttrUtils).forEach((Attr: any) => {
-  const detectWhiteList = ['List', 'Selector'];
+  const detectWhiteList = [
+    'List',
+    'Selector',
+    'TextAlignHorizontal',
+    'TextAlignVertical',
+  ];
 
   if (detectWhiteList.includes(Attr.name)) return;
 

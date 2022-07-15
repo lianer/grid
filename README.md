@@ -126,3 +126,4 @@
 - type-fest - A collection of essential TypeScript types <https://github.com/sindresorhus/type-fest>
 - classnames - A simple JavaScript utility for conditionally joining classNames together. <https://www.npmjs.com/package/classnames>
 - react-hotkeys - hotkeys <https://github.com/greena13/react-hotkeys>
+- csstype - It provides autocompletion and type checking for CSS properties and values <https://github.com/frenic/csstype#what-should-i-do-when-i-get-type-errors>

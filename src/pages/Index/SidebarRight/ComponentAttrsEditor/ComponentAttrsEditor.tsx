@@ -8,6 +8,7 @@ import FontEditor from './FontEditor/FontEditor';
 import NumberInputEditor from './NumberInputEditor/NumberInputEditor';
 import SelectorEditor from './SelectorEditor/SelectorEditor';
 import SliderEditor from './SliderEditor/SliderEditor';
+import TextAlignEditor from './TextAlignEditor/TextAlignEditor';
 import TextInputEditor from './TextInputEditor/TextInputEditor';
 
 const AttrEditorFilter: React.FC<{
@@ -28,6 +29,8 @@ const AttrEditorFilter: React.FC<{
       return <SliderEditor iid={iid} attr={attr} update={update} />;
     case AttrUtils.Font.name:
       return <FontEditor iid={iid} attr={attr} update={update} />;
+    case AttrUtils.TextAlign.name:
+      return <TextAlignEditor iid={iid} attr={attr} update={update} />;
     default:
       return <div>未知属性</div>;
   }

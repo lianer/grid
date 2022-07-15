@@ -89,7 +89,7 @@ const BasicControl: FC<
           height: autoHeight ? undefined : `${localControl.height}px`,
         }}
       >
-        <div className="BasicControlContainer">{children}</div>
+        <div className="BasicControlContainer w-full h-full">{children}</div>
         <div
           className={classnames(
             'absolute left-0 top-0 w-full h-full opacity-10',
