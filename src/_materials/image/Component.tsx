@@ -14,7 +14,10 @@ const Component: FC<ImageSchema> = ({
   }, [src]);
 
   return fallback ? (
-    <div className="FallbackImage w-full h-[6rem] bg-gray-200 text-center leading-[6rem] text-[1.125rem] text-gray-400">
+    <div
+      className="FallbackImage w-full h-[6rem] bg-gray-200 text-center leading-[6rem] text-[1.125rem] text-gray-400"
+      style={{ opacity: opacity.value / 100 }}
+    >
       默认图
     </div>
   ) : (
@@ -22,7 +25,7 @@ const Component: FC<ImageSchema> = ({
       src={src.value}
       style={{
         width: '100%',
-        opacity: opacity.value,
+        opacity: opacity.value / 100,
       }}
       onError={(e) => setFallback(true)}
     />

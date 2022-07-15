@@ -9,11 +9,11 @@ const SliderEditor: React.FC<{
   return (
     <Form.Item label={attr.title}>
       <Slider
-        value={attr.value}
+        defaultValue={attr.value}
         min={attr.min}
         max={attr.max}
         step={attr.step}
-        onChange={(value: number) => {
+        onAfterChange={(value: number) => {
           update({
             ...attr,
             value,

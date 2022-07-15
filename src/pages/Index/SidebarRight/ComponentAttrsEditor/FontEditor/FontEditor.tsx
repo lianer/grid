@@ -80,7 +80,7 @@ const FontEditor: React.FC<{
     <Form.Item className="FontEditor" label={attr.title}>
       <Space className="w-full" direction="vertical">
         <Row gutter={8}>
-          <Col span={16}>
+          <Col span={12}>
             <Select
               value={attr.typeface}
               onChange={(value: string) => update({ ...attr, typeface: value })}
@@ -92,9 +92,10 @@ const FontEditor: React.FC<{
               ))}
             </Select>
           </Col>
-          <Col span={8}>
+          <Col span={6}>
             <Select
               value={String(attr.size)}
+              showArrow={false}
               onChange={(value: string) => update({ ...attr, size: +value })}
             >
               {fontSizeOptions.map((size) => (

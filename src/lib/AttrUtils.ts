@@ -83,7 +83,7 @@ export namespace AttrUtils {
     max: number;
     step: number;
     constructor(attrs: Partial<Slider>) {
-      this.title = attrs.title ?? '选择';
+      this.title = attrs.title ?? '滑块';
       this.value = attrs.value ?? 100;
       this.min = attrs.min ?? 0;
       this.max = attrs.max ?? 100;
