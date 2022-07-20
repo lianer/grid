@@ -54,8 +54,8 @@ const BasicControl: FC<
 
   return (
     <Rnd
-      dragGrid={[8, 8]}
-      resizeGrid={[8, 8]}
+      dragGrid={[1, 1]}
+      resizeGrid={[1, 1]}
       disableDragging={!isActive}
       enableResizing={isActive ? resizeOptions : false}
       position={{
@@ -70,10 +70,12 @@ const BasicControl: FC<
         });
       }}
       onDragStop={dispatchChangeControl}
-      onResize={(e, d, ref) => {
+      onResize={(e, d, ref, delta, position) => {
         const { width, height } = ref.getBoundingClientRect();
         setLocalControl({
           ...control,
+          left: position.x, // 拖拽左/上边框调整尺寸时，需要响应 position 的变化
+          top: position.y,
           width: autoWidth ? undefined : width,
           height: autoHeight ? undefined : height,
         });
