@@ -5,8 +5,9 @@ import {
   getRightLine,
   getTopLine,
 } from './getLine';
+import { getRect, Rect } from './getRect';
 import { Line, LineProps } from './Line';
-import { Portal } from './Popup';
+import { Portal } from './Portal';
 
 type onChangeResult = {
   left: number | null;
@@ -23,9 +24,11 @@ type ReferenceLineOptions = {
 
   detectOffset?: number; // 检测偏移范围内的元素
 
-  onChange?: (result: onChangeResult) => void; // 当对比结果发生变化的时候回调，可以在回调函数中实现智能吸附等功能
-
   children?: React.ReactNode; // 容器元素
+
+  getContainer?: () => HTMLElement;
+
+  onChange?: (result: onChangeResult) => void; // 当对比结果发生变化的时候回调，可以在回调函数中实现智能吸附等功能
 };
 
 const ReferenceLine: React.FC<ReferenceLineOptions> = function (props) {
@@ -35,19 +38,31 @@ const ReferenceLine: React.FC<ReferenceLineOptions> = function (props) {
     active = false,
     detectOffset = 2,
     children = undefined,
+    getContainer,
     onChange = undefined,
   } = props;
 
   const targetRef = useRef<HTMLElement | null>(null);
   const elementsRef = useRef<HTMLElement[]>([]);
-  const rectsRef = useRef<DOMRect[]>([]);
+  const rectsRef = useRef<Rect[]>([]);
   const mouseRef = useRef<boolean>(false);
   const [lines, setLines] = useState<LineProps>();
+  const containerRef = useRef<HTMLElement | null>(null);
 
-  // 初始化获取 DOM 节点，计算 DOMRect
+  // 初始化获取 DOM 节点，计算 Rect
   const updateElementsAndRects = () => {
+    if (!active) return;
+
     targetRef.current =
       document.body.querySelector<HTMLElement>(targetSelector);
+
+    if (!targetRef.current) {
+      return;
+    }
+
+    if (getContainer) {
+      containerRef.current = getContainer();
+    }
 
     // 获取所有对比的元素
     const _nodeList =
@@ -60,17 +75,22 @@ const ReferenceLine: React.FC<ReferenceLineOptions> = function (props) {
     );
 
     // 获取元素的 rect
-    rectsRef.current = elementsRef.current.map((el) =>
-      el.getBoundingClientRect(),
-    );
+    rectsRef.current = elementsRef.current.map((el) => {
+      // return el.getBoundingClientRect()
+      return getRect(el, containerRef.current);
+    });
+
+    // console.log('rectsRef.current', rectsRef.current);
   };
 
   // 更新辅助线视图
   const updateLines = () => {
-    if (!active) return;
+    if (!active || !targetRef.current || !rectsRef.current) return;
 
-    const targetRect = targetRef.current!.getBoundingClientRect();
-    const otherRects = rectsRef.current!;
+    const targetRect = getRect(targetRef.current, containerRef.current);
+    const otherRects = rectsRef.current;
+
+    // console.log('targetRect', targetRect);
 
     const match = (target: number, source1: number, source2: number) => {
       // 间隙 < 1 就认为是对齐的，因为在缩放过程中，有些组件可能会出现非整数的坐标
@@ -102,10 +122,10 @@ const ReferenceLine: React.FC<ReferenceLineOptions> = function (props) {
 
   // 更新获取偏移范围内的元素
   const updateOffset = () => {
-    if (!active) return;
+    if (!active || !targetRef.current || !rectsRef.current) return;
 
-    const targetRect = targetRef.current!.getBoundingClientRect();
-    const otherRects = rectsRef.current!;
+    const targetRect = getRect(targetRef.current, containerRef.current);
+    const otherRects = rectsRef.current;
 
     const horizontalLines = [
       ...new Set(otherRects.map((rect) => [rect.left, rect.right]).flat()),
@@ -166,7 +186,7 @@ const ReferenceLine: React.FC<ReferenceLineOptions> = function (props) {
     >
       {children}
       {active && (
-        <Portal getContainer={() => document.getElementById('root')!}>
+        <Portal getContainer={getContainer}>
           <Line {...lines} />
         </Portal>
       )}

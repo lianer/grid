@@ -68,7 +68,8 @@ const Control: React.FC<
       <ReferenceLine
         active={controlIsActive}
         targetSelector=".Control.Active .react-draggable"
-        otherSelector=".Control .react-draggable"
+        otherSelector=".Control .react-draggable, .Stage"
+        getContainer={() => document.querySelector('.Room')!}
       >
         <ControlFilter iid={iid} isActive={controlIsActive} control={control}>
           {children}

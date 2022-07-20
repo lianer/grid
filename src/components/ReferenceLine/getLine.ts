@@ -1,9 +1,11 @@
+import { Rect } from './getRect';
+
 const MAX = Number.MAX_SAFE_INTEGER;
 const MIN = Number.MIN_SAFE_INTEGER;
 
 type GetLeftLine = (
-  targetRect: DOMRect,
-  rects: DOMRect[],
+  targetRect: Rect,
+  rects: Rect[],
 ) => { left: number; top: number; height: number } | undefined;
 export const getLeftLine: GetLeftLine = function (targetRect, rects) {
   if (rects.length === 0) return undefined;
@@ -14,8 +16,8 @@ export const getLeftLine: GetLeftLine = function (targetRect, rects) {
 };
 
 type GetRightLine = (
-  targetRect: DOMRect,
-  rects: DOMRect[],
+  targetRect: Rect,
+  rects: Rect[],
 ) => { left: number; top: number; height: number } | undefined;
 export const getRightLine: GetRightLine = function (targetRect, rects) {
   if (rects.length === 0) return undefined;
@@ -26,8 +28,8 @@ export const getRightLine: GetRightLine = function (targetRect, rects) {
 };
 
 type GetTopLine = (
-  targetRect: DOMRect,
-  rects: DOMRect[],
+  targetRect: Rect,
+  rects: Rect[],
 ) => { top: number; left: number; width: number } | undefined;
 export const getTopLine: GetTopLine = function (targetRect, rects) {
   if (rects.length === 0) return undefined;
@@ -38,8 +40,8 @@ export const getTopLine: GetTopLine = function (targetRect, rects) {
 };
 
 type GetBottomLine = (
-  targetRect: DOMRect,
-  rects: DOMRect[],
+  targetRect: Rect,
+  rects: Rect[],
 ) => { top: number; left: number; width: number } | undefined;
 export const getBottomLine: GetBottomLine = function (targetRect, rects) {
   if (rects.length === 0) return undefined;

@@ -62,9 +62,12 @@ const Stage: FC = function () {
   };
 
   return (
-    <div className="Room h-full overflow-auto p-16" onClick={onStageClick}>
+    <div
+      className="Room relative h-full overflow-auto p-16"
+      onClick={onStageClick}
+    >
       <div
-        className={classnames(s.Stage, 'relative h-full bg-white')}
+        className={classnames(s.Stage, 'Stage relative h-full bg-white')}
         style={{
           width,
           height,
