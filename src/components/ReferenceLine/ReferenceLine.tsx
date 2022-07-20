@@ -18,15 +18,15 @@ type onChangeResult = {
 
 type ReferenceLineOptions = {
   targetSelector: string; // 被拖拽的元素选择器
-  otherSelector: string; // 其他对比的元素选择器
+  otherSelector: string; // 其他对比的元素选择器，被拖拽的元素的父级容器也可以加到选择器中，就可以实现与容器的边界检测效果
 
-  active?: boolean;
+  active?: boolean; // 是否激活，当需要显示辅助线的时候设为 true
 
   detectOffset?: number; // 检测偏移范围内的元素
 
   children?: React.ReactNode; // 容器元素
 
-  getContainer?: () => HTMLElement;
+  getContainer?: () => HTMLElement; // 辅助线要挂载到哪个 DOM 下面
 
   onChange?: (result: onChangeResult) => void; // 当对比结果发生变化的时候回调，可以在回调函数中实现智能吸附等功能
 };
