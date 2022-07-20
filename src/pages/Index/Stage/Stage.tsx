@@ -1,4 +1,4 @@
-import Control from '@/controls/Control/Control';
+import Control from '@/controls/Controls';
 import { loadById } from '@/lib/loader';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { inactive, selectChildren, selectPresent } from '@/store/stageSlice';

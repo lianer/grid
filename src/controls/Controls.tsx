@@ -1,3 +1,4 @@
+import ReferenceLine from '@/components/ReferenceLine/ReferenceLine';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { active, selectPresent } from '@/store/stageSlice';
 import {
@@ -7,8 +8,8 @@ import {
 } from '@/types';
 import classnames from 'classnames';
 import { memo, PropsWithChildren, useCallback } from 'react';
-import AutoHeightControl from '../AutoHeightControl/AutoHeightControl';
-import BasicControl from '../BasicControl/BasicControl';
+import AutoHeightControl from './AutoHeightControl/AutoHeightControl';
+import BasicControl from './BasicControl/BasicControl';
 
 const ControlFilter: React.FC<
   PropsWithChildren<{ iid: number; isActive: boolean; control: ControlSchema }>
@@ -58,12 +59,21 @@ const Control: React.FC<
 
   return (
     <div
-      className={classnames('Control relative', { 'z-10': controlIsActive })}
+      className={classnames('Control relative', {
+        Active: controlIsActive,
+        'z-10': controlIsActive,
+      })}
       onClick={onControlClick}
     >
-      <ControlFilter iid={iid} isActive={controlIsActive} control={control}>
-        {children}
-      </ControlFilter>
+      <ReferenceLine
+        active={controlIsActive}
+        targetSelector=".Control.Active .react-draggable"
+        otherSelector=".Control .react-draggable"
+      >
+        <ControlFilter iid={iid} isActive={controlIsActive} control={control}>
+          {children}
+        </ControlFilter>
+      </ReferenceLine>
     </div>
   );
 });

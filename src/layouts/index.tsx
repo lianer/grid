@@ -1,6 +1,6 @@
 // organize-imports-ignore
 import '@/styles/append-antd.less';
-import '@/styles/override-antd.less';
+import '@/styles/base.less';
 import '@/styles/fonts.less';
 import { Provider } from 'react-redux';
 
