@@ -24,7 +24,7 @@ const CachedComp: FC<{
 }> = memo(function ({ child, Comp }) {
   return (
     <Control key={child.iid} iid={child.iid} control={child.control}>
-      <Comp {...child} stage={true}></Comp>
+      <Comp key={child.iid} {...child} stage={true}></Comp>
     </Control>
   );
 });
