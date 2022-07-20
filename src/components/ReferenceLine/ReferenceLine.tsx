@@ -16,8 +16,8 @@ type onChangeResult = {
 };
 
 type ReferenceLineOptions = {
-  targetSelector: string;
-  otherSelector: string;
+  targetSelector: string; // 被拖拽的元素选择器
+  otherSelector: string; // 其他对比的元素选择器
 
   active?: boolean;
 
@@ -150,6 +150,7 @@ const ReferenceLine: React.FC<ReferenceLineOptions> = function (props) {
 
   return (
     <div
+      className="ReferenceLine"
       onMouseDown={() => {
         mouseRef.current = true;
       }}

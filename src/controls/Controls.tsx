@@ -69,10 +69,11 @@ const Control: React.FC<
         active={controlIsActive}
         targetSelector=".Control.Active .react-draggable"
         otherSelector=".Control .react-draggable"
-      />
-      <ControlFilter iid={iid} isActive={controlIsActive} control={control}>
-        {children}
-      </ControlFilter>
+      >
+        <ControlFilter iid={iid} isActive={controlIsActive} control={control}>
+          {children}
+        </ControlFilter>
+      </ReferenceLine>
     </div>
   );
 });
